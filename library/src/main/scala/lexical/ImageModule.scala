@@ -32,7 +32,7 @@ class ImageModule extends EditorModule:
     content.appendChild(altLabel)
     content.appendChild(altInput)
     
-    Dialog.show("Insert Image", content, () => {
+    editor.getDialogService.show("Insert Image", content, () => {
       val src = urlInput.value
       if (src.nonEmpty) {
         editor.dispatchCommand(ImageNode.INSERT_IMAGE_COMMAND, new ImagePayload:

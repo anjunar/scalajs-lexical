@@ -85,3 +85,5 @@ trait LexicalEditor extends js.Object:
 
 extension (editor: LexicalEditor)
   def getSelectionWrapper(): SelectionWrapper = SelectionWrapper(editor)
+  def getDialogService: DialogService = editor.asInstanceOf[js.Dynamic].dialogService.asInstanceOf[DialogService]
+  def setDialogService(service: DialogService): Unit = editor.asInstanceOf[js.Dynamic].dialogService = service.asInstanceOf[js.Any]
