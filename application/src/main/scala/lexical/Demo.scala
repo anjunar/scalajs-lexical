@@ -11,22 +11,43 @@ def main(): Unit =
 
   val builder = new LexicalBuilder()
     .withNamespace("Lexical Scala.js Demo")
-    .withTheme(js.Dynamic.literal(
-      paragraph = "editor-paragraph",
-      quote = "PlaygroundEditorTheme__quote"
+    .withTheme(new EditorThemeBuilder()
+      .withParagraph("editor-paragraph")
+      .withQuote("PlaygroundEditorTheme__quote")
+      .build()
+    )
+    .withNodes(js.Array(
+      js.constructorOf[codemirror.CodeMirrorNode],
+      LexicalLink.LinkNode,
+      LexicalRichText.HeadingNode,
+      LexicalRichText.QuoteNode,
+      LexicalList.ListNode,
+      LexicalList.ListItemNode,
+      LexicalCode.CodeNode
     ))
-    .withNodes(js.Array(js.constructorOf[codemirror.CodeMirrorNode]))
-    .withModules(
-      EditorModules.BOLD,
-      EditorModules.ITALIC,
-      new ParagraphModule(),
-      new CodeMirrorModule(),
+    .withToolbar(
+      ToolbarGroup(EditorModules.BOLD, EditorModules.ITALIC, new LinkModule()),
+      ToolbarSeparator(),
+      ToolbarGroup(new ParagraphModule(), new CodeMirrorModule()),
+      ToolbarSeparator(),
       EditorModules.CLEAR
     )
+    .withFloatingToolbar(
+      EditorModules.BOLD,
+      EditorModules.ITALIC,
+      new LinkModule()
+    )
+    .withModules(new MarkdownModule())
+    .onStateChange(json => {
+      val stateDiv = dom.document.getElementById("state")
+      if (stateDiv != null) {
+        stateDiv.textContent = json
+      }
+    })
 
   val editor = builder.build(editorContainer)
   
-  val toolbarManager = new ToolbarManager(editor, builder.getModules)
+  val toolbarManager = new ToolbarManager(editor, builder.getToolbarElements)
   toolbarManager.createToolbar(toolbarContainer)
 
   // Initial State

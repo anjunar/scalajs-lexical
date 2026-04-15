@@ -82,3 +82,6 @@ trait LexicalEditor extends js.Object:
   def isEditable(): Boolean = js.native
   def setEditable(editable: Boolean): Unit = js.native
   def toJSON(): js.Dynamic = js.native
+
+extension (editor: LexicalEditor)
+  def getSelectionWrapper(): SelectionWrapper = SelectionWrapper(editor)

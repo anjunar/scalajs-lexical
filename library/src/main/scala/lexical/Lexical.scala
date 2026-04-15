@@ -45,6 +45,7 @@ object Lexical extends js.Object:
   def CLEAR_HISTORY_COMMAND: LexicalCommand[Unit] = js.native
   def UNDO_COMMAND: LexicalCommand[Unit] = js.native
   def REDO_COMMAND: LexicalCommand[Unit] = js.native
+  def SELECTION_CHANGE_COMMAND: LexicalCommand[Unit] = js.native
 
 object LexicalConstants:
   val IS_BOLD = "bold"
@@ -55,6 +56,30 @@ object LexicalConstants:
   val IS_SUBSCRIPT = "subscript"
   val IS_SUPERSCRIPT = "superscript"
   val IS_HIGHLIGHT = "highlight"
+
+@JSImport("@lexical/link", JSImport.Namespace)
+@js.native
+object LexicalLink extends js.Object:
+  def LinkNode: js.Dynamic = js.native
+  def TOGGLE_LINK_COMMAND: LexicalCommand[String | Null] = js.native
+  def $isLinkNode(node: LexicalNode): Boolean = js.native
+
+@JSImport("@lexical/markdown", JSImport.Namespace)
+@js.native
+object LexicalMarkdown extends js.Object:
+  def registerMarkdownShortcuts(editor: LexicalEditor, transformers: js.Array[js.Any]): js.Function0[Unit] = js.native
+  def TRANSFORMERS: js.Array[js.Any] = js.native
+
+@JSImport("@lexical/list", JSImport.Namespace)
+@js.native
+object LexicalList extends js.Object:
+  def ListNode: js.Dynamic = js.native
+  def ListItemNode: js.Dynamic = js.native
+
+@JSImport("@lexical/code", JSImport.Namespace)
+@js.native
+object LexicalCode extends js.Object:
+  def CodeNode: js.Dynamic = js.native
 
 @JSImport("@lexical/rich-text", JSImport.Namespace)
 @js.native

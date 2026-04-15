@@ -2,7 +2,7 @@ package lexical
 
 import scala.scalajs.js
 
-trait EditorModule:
+trait EditorModule extends ToolbarElement:
   def name: String
   def iconName: Option[String] = None
   
