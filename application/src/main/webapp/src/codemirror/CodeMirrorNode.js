@@ -3,7 +3,6 @@ import { EditorView } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
-import { oneDark } from '@codemirror/theme-one-dark';
 import { keymap } from '@codemirror/view';
 import { defaultKeymap, indentWithTab } from '@codemirror/commands';
 import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language';
@@ -53,7 +52,6 @@ class CodeMirrorComponent {
     } else if (this.language === 'python') {
       extensions.push(python());
     }
-    extensions.push(oneDark);
 
     const state = EditorState.create({
       doc: this.code,
