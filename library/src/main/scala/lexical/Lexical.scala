@@ -6,10 +6,13 @@ import org.scalajs.dom
 
 type NodeKey = String
 
+@js.native
+trait LexicalCommand[P] extends js.Object
+
 @JSImport("lexical", JSImport.Namespace)
 @js.native
 object Lexical extends js.Object:
-  def createEditor(config: js.Dynamic): LexicalEditor = js.native
+  def createEditor(config: EditorConfig): LexicalEditor = js.native
   def TextNode: TextNodeStatic = js.native
   def ParagraphNode: ParagraphNodeStatic = js.native
   def RootNode: RootNodeStatic = js.native
@@ -36,11 +39,12 @@ object Lexical extends js.Object:
   def $isLineBreakNode(node: LexicalNode): Boolean = js.native
   def $isTabNode(node: LexicalNode): Boolean = js.native
   def $getNodeByKey(key: NodeKey): LexicalNode | Null = js.native
-  def FORMAT_TEXT_COMMAND: js.Dynamic = js.native
-  def CLEAR_EDITOR_COMMAND: js.Dynamic = js.native
-  def CLEAR_HISTORY_COMMAND: js.Dynamic = js.native
-  def UNDO_COMMAND: js.Dynamic = js.native
-  def REDO_COMMAND: js.Dynamic = js.native
+  def KEY_ENTER_COMMAND: LexicalCommand[Unit] = js.native
+  def FORMAT_TEXT_COMMAND: LexicalCommand[String] = js.native
+  def CLEAR_EDITOR_COMMAND: LexicalCommand[Unit] = js.native
+  def CLEAR_HISTORY_COMMAND: LexicalCommand[Unit] = js.native
+  def UNDO_COMMAND: LexicalCommand[Unit] = js.native
+  def REDO_COMMAND: LexicalCommand[Unit] = js.native
 
 object LexicalConstants:
   val IS_BOLD = "bold"
@@ -55,19 +59,36 @@ object LexicalConstants:
 @JSImport("@lexical/rich-text", JSImport.Namespace)
 @js.native
 object LexicalRichText extends js.Object:
-  def registerRichText(editor: LexicalEditor): Unit = js.native
-  def RichTextExtension: js.Dynamic = js.native
+  def registerRichText(editor: LexicalEditor): js.Function0[Unit] = js.native
+  def HeadingNode: js.Dynamic = js.native
+  def QuoteNode: js.Dynamic = js.native
 
 @JSImport("@lexical/history", JSImport.Namespace)
 @js.native
 object LexicalHistory extends js.Object:
-  def registerHistory(editor: LexicalEditor, historyState: js.Dynamic, delay: Int = 300): Unit = js.native
-  def createEmptyHistoryState(): js.Dynamic = js.native
+  def registerHistory(editor: LexicalEditor, historyState: HistoryState, delay: Int = 300): js.Function0[Unit] = js.native
+  def createEmptyHistoryState(): HistoryState = js.native
+
+@js.native
+trait HistoryState extends js.Object
 
 @JSImport("@lexical/dragon", JSImport.Namespace)
 @js.native
 object LexicalDragon extends js.Object:
-  def registerDragonSupport(editor: LexicalEditor): Unit = js.native
+  def registerDragonSupport(editor: LexicalEditor): js.Function0[Unit] = js.native
+
+@JSImport("@lexical/utils", JSImport.Namespace)
+@js.native
+object LexicalUtils extends js.Object:
+  def mergeRegister(unregisters: js.Array[js.Function0[Unit]]): js.Function0[Unit] = js.native
+
+@js.native
+trait EditorConfig extends js.Object:
+  var namespace: String
+  var theme: js.Object | Null
+  var nodes: js.Array[js.Any]
+  var onError: js.Function1[js.Error, Unit]
+  var editable: js.Any
 
 object COMMAND_PRIORITY:
   val EDITOR = 0
@@ -75,3 +96,6 @@ object COMMAND_PRIORITY:
   val NORMAL = 2
   val HIGH = 3
   val CRITICAL = 4
+
+def createCommand[P](name: String): LexicalCommand[P] =
+  js.Dynamic.literal(`type` = name).asInstanceOf[LexicalCommand[P]]

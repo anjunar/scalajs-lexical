@@ -21,9 +21,17 @@ lazy val library = (project in file("library"))
     commonSettings
   )
 
-lazy val application = (project in file("application"))
+lazy val codemirror = (project in file("codemirror"))
   .enablePlugins(ScalaJSPlugin)
   .dependsOn(library)
+  .settings(
+    name := "lexical-codemirror",
+    commonSettings
+  )
+
+lazy val application = (project in file("application"))
+  .enablePlugins(ScalaJSPlugin)
+  .dependsOn(library, codemirror)
   .settings(
     name := "lexical-demo",
     commonSettings,
@@ -31,7 +39,7 @@ lazy val application = (project in file("application"))
   )
 
 lazy val root = (project in file("."))
-  .aggregate(library, application)
+  .aggregate(library, codemirror, application)
   .settings(
     publish / skip := true
   )

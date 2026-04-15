@@ -26,6 +26,20 @@
     }
     .editor-paragraph {
       margin: 0 0 8px 0;
+      min-height: 1.2em;
+      line-height: 1.2;
+    }
+    .codemirror-wrapper {
+      border: 1px solid #333;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 8px 0;
+    }
+    .cm-editor {
+      height: 150px;
+    }
+    .cm-editor.cm-focused {
+      outline: none;
     }
   </style>
 </head>
@@ -33,6 +47,7 @@
   <h1>Lexical Scala.js Demo</h1>
   <div id="toolbar"></div>
   <div id="editor" contenteditable="true"></div>
+  <div id="state"></div>
   <script type="module" src="./src/main.js"></script>
 </body>
 </html>
