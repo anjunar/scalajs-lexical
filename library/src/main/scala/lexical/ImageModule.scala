@@ -6,6 +6,10 @@ import org.scalajs.dom
 class ImageModule extends EditorModule:
   override def name: String = "Image"
   override def iconName: Option[String] = Some("image")
+  override def metadata: ToolbarMetadata = new ToolbarMetadata:
+    val tabName = "Insert"
+    val sectionName = "Media"
+    val order = 1
 
   override def execute(editor: LexicalEditor): Unit =
     val content = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]

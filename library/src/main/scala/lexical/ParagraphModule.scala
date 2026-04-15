@@ -5,6 +5,10 @@ import scala.scalajs.js
 class ParagraphModule extends EditorModule:
   override def name: String = "Paragraph"
   override def iconName: Option[String] = Some("add")
+  override def metadata: ToolbarMetadata = new ToolbarMetadata:
+    val tabName = "Home"
+    val sectionName = "Actions"
+    val order = 2
   
   override def execute(editor: LexicalEditor): Unit =
     editor.update(() => {

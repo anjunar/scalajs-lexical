@@ -1,198 +1,64 @@
-/* Core Lexical Styles */
-
-.lexical-editor-container {
-    position: relative;
-    line-height: 20px;
-    font-weight: 400;
-    text-align: left;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+/* lexical/index.css */
+.lexical-ribbon {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #f3f3f3;
+    border-bottom: 1px solid #dcdcdc;
+    padding: 5px;
+    gap: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.lexical-editor-input {
-    min-height: 150px;
-    resize: none;
-    cursor: text;
-    padding: 10px 20px;
-    position: relative;
-    outline: 0;
-}
-
-.lexical-placeholder {
-    color: #999;
-    overflow: hidden;
-    position: absolute;
-    text-overflow: ellipsis;
-    top: 10px;
-    left: 20px;
-    font-size: 15px;
-    user-select: none;
-    display: inline-block;
-    pointer-events: none;
-}
-
-/* Theme Classes */
-.lexical-paragraph {
-    margin: 0 0 10px 0;
-    position: relative;
-}
-
-.lexical-text-bold {
+.lexical-ribbon-tab {
+    padding: 5px 15px;
     font-weight: bold;
-}
-
-.lexical-text-italic {
-    font-style: italic;
-}
-
-.lexical-text-underline {
-    text-decoration: underline;
-}
-
-.lexical-text-code {
-    background-color: #f0f2f5;
-    padding: 1px 0.25rem;
-    font-family: Menlo, Consolas, Monaco, monospace;
-    font-size: 94%;
-    border-radius: 4px;
-}
-
-.lexical-link {
-    color: #2167af;
-    text-decoration: none;
+    color: #444;
     cursor: pointer;
+    border-bottom: 2px solid transparent;
 }
 
-.lexical-link:hover {
-    text-decoration: underline;
+.lexical-ribbon-tab:hover {
+    color: #000;
 }
 
-/* Custom Nodes */
-.image-node-container {
-    display: inline-block;
-    position: relative;
-    margin: 8px 0;
-    user-select: none;
-}
-
-.image-node-container img {
-    max-width: 100%;
-    cursor: default;
-    border-radius: 4px;
-}
-
-.codemirror-wrapper {
-    margin: 16px 0;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-/* Library UI: Floating Toolbar */
-.floating-toolbar {
+.lexical-ribbon-section {
     display: flex;
-    background: #fff;
-    padding: 4px;
-    vertical-align: middle;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    opacity: 0;
-    background-color: #111;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    transition: opacity 0.3s;
-    will-change: transform;
-}
-
-.floating-toolbar button {
-    border: 0;
-    display: flex;
-    background: none;
-    border-radius: 4px;
-    padding: 6px;
-    cursor: pointer;
-    vertical-align: middle;
-    color: #fff;
-}
-
-.floating-toolbar button:hover {
-    background-color: #444;
-}
-
-.floating-toolbar button.active {
-    color: #4da6ff;
-    background-color: #333;
-}
-
-.floating-toolbar .toolbar-separator {
-    width: 1px;
-    background-color: #444;
-    margin: 4px 6px;
-}
-
-/* Library UI: Dialog/Modal */
-.modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.4);
-    backdrop-filter: blur(2px);
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    z-index: 10000;
-    animation: fadeIn 0.2s ease-out;
+    gap: 2px;
+    padding: 0 10px;
+    border-right: 1px solid #ccc;
 }
 
-.modal-content {
-    background: #fff;
-    padding: 24px;
-    border-radius: 12px;
-    min-width: 350px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    animation: slideUp 0.3s ease-out;
+.lexical-ribbon-section-label {
+    font-size: 10px;
+    color: #666;
+    text-transform: uppercase;
+    margin-top: 2px;
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-
-.modal-content h3 {
-    margin: 0 0 16px 0;
-    color: #1c1e21;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 24px;
-}
-
-.modal-actions button {
-    padding: 10px 20px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    background: #fff;
+.lexical-ribbon-button {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 5px;
     cursor: pointer;
-    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
     transition: all 0.2s;
 }
 
-.modal-actions button:hover {
-    background: #f5f6f7;
+.lexical-ribbon-button:hover {
+    background: #e0e0e0;
+    border: 1px solid #ccc;
 }
 
-.modal-actions button.confirm-btn {
-    background: #2167af;
-    color: #fff;
-    border-color: #2167af;
+.lexical-ribbon-button:active {
+    background: #d0d0d0;
 }
 
-.modal-actions button.confirm-btn:hover {
-    background: #1a548f;
+.lexical-ribbon-button .material-icons {
+    font-size: 20px;
 }

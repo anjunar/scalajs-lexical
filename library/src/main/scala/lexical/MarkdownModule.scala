@@ -4,6 +4,10 @@ import scala.scalajs.js
 
 class MarkdownModule(transformers: js.Array[js.Any] = LexicalMarkdown.TRANSFORMERS) extends EditorModule:
   override def name: String = "Markdown"
+  override def metadata: ToolbarMetadata = new ToolbarMetadata:
+    val tabName = "Home"
+    val sectionName = "Tools"
+    val order = 1
   override def execute(editor: LexicalEditor): Unit = () // No UI action needed
 
   override def register(editor: LexicalEditor): js.Function0[Unit] =

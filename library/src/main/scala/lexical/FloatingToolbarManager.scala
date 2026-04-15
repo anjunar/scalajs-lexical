@@ -3,14 +3,16 @@ package lexical
 import scala.scalajs.js
 import org.scalajs.dom
 
-class FloatingToolbarManager(editor: LexicalEditor, elements: js.Array[ToolbarElement]):
+class FloatingToolbarManager(editor: LexicalEditor, modules: Seq[EditorModule]):
   private val toolbarDiv = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
   toolbarDiv.className = "floating-toolbar"
   toolbarDiv.style.position = "absolute"
   toolbarDiv.style.display = "none"
   toolbarDiv.style.zIndex = "1000"
   
-  private val innerManager = new ToolbarManager(editor, elements)
+  private val registry = new ToolbarRegistry(modules.toList)
+  private val renderer = new RibbonRenderer()
+  private val innerManager = new ToolbarManager(editor, registry, renderer)
   innerManager.createToolbar(toolbarDiv)
   dom.document.body.appendChild(toolbarDiv)
 

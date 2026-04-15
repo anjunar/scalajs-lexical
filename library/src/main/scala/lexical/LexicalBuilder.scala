@@ -8,8 +8,9 @@ class LexicalBuilder:
   private var _theme: EditorTheme = js.Dynamic.literal().asInstanceOf[EditorTheme]
   private var _nodes: js.Array[js.Any] = js.Array()
   private var _modules: Seq[EditorModule] = Seq.empty
+  private var _ribbonModules: Seq[EditorModule] = Seq.empty
+  private var _floatingToolbarModules: Seq[EditorModule] = Seq.empty
   private var _toolbarElements: js.Array[ToolbarElement] = js.Array()
-  private var _floatingToolbarElements: js.Array[ToolbarElement] = js.Array()
   private var _editable: Boolean = true
   private var _initialState: Option[String] = None
   private var _onStateChange: Option[String => Unit] = None
@@ -43,13 +44,13 @@ class LexicalBuilder:
     elements.flatMap(extract).toSeq
 
   def withToolbar(elements: ToolbarElement*): this.type =
-    _toolbarElements = js.Array(elements*)
-    _modules = _modules ++ extractModulesFromElements(_toolbarElements)
+    _ribbonModules = extractModulesFromElements(js.Array(elements*))
+    _modules = _modules ++ _ribbonModules
     this
 
   def withFloatingToolbar(elements: ToolbarElement*): this.type =
-    _floatingToolbarElements = js.Array(elements*)
-    _modules = _modules ++ extractModulesFromElements(_floatingToolbarElements)
+    _floatingToolbarModules = extractModulesFromElements(js.Array(elements*))
+    _modules = _modules ++ _floatingToolbarModules
     this
 
   def withEditable(editable: Boolean): this.type =
@@ -131,10 +132,14 @@ class LexicalBuilder:
     // Module Registrations
     _modules.distinct.foreach(_.register(editor))
 
+    // Ribbon Toolbar
+    if (_ribbonModules.nonEmpty) {
+       // logic will use _ribbonModules
+    }
 
     // Floating Toolbar
-    if (_floatingToolbarElements.nonEmpty) {
-      new FloatingToolbarManager(editor, _floatingToolbarElements).register()
+    if (_floatingToolbarModules.nonEmpty) {
+      new FloatingToolbarManager(editor, _floatingToolbarModules).register()
     }
 
     // Generic Decorator Listener for Vanilla JS / DOM integration
@@ -154,4 +159,5 @@ class LexicalBuilder:
     editor
 
   def getModules: js.Array[EditorModule] = js.Array(_modules*)
+  def getRibbonModules: Seq[EditorModule] = _ribbonModules
   def getToolbarElements: js.Array[ToolbarElement] = _toolbarElements

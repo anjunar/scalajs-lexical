@@ -31,11 +31,14 @@ def main(): Unit =
       js.constructorOf[ImageNode]
     ))
     .withToolbar(
-      ToolbarGroup(EditorModules.BOLD, EditorModules.ITALIC, new LinkModule(), new ImageModule()),
-      ToolbarSeparator(),
-      ToolbarGroup(new ParagraphModule(), new CodeMirrorModule()),
-      ToolbarSeparator(),
-      EditorModules.CLEAR
+      EditorModules.BOLD,
+      EditorModules.ITALIC,
+      new LinkModule(),
+      new ImageModule(),
+      new ParagraphModule(),
+      new CodeMirrorModule(),
+      EditorModules.CLEAR,
+      new MarkdownModule()
     )
     .withFloatingToolbar(
       EditorModules.BOLD,
@@ -52,7 +55,11 @@ def main(): Unit =
 
   val editor = builder.build(editorContainer)
   
-  val toolbarManager = new ToolbarManager(editor, builder.getToolbarElements)
+  val ribbonModules = builder.getRibbonModules.toList
+  val registry = new ToolbarRegistry(ribbonModules)
+  val renderer = new RibbonRenderer()
+  
+  val toolbarManager = new ToolbarManager(editor, registry, renderer)
   toolbarManager.createToolbar(toolbarContainer)
 
   // Initial State

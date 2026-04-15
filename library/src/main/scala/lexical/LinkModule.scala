@@ -7,6 +7,10 @@ class LinkModule extends EditorModule:
   override def name: String = "Link"
   override def iconName: Option[String] = Some("link")
   override def keyBinding: Option[String] = Some("Control+K")
+  override def metadata: ToolbarMetadata = new ToolbarMetadata:
+    val tabName = "Insert"
+    val sectionName = "Links"
+    val order = 1
 
   override def isActive(editor: LexicalEditor): Boolean =
     editor.getSelectionWrapper().getNodes.exists(node => LexicalLink.$isLinkNode(node))

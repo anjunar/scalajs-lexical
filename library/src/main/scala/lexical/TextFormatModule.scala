@@ -6,7 +6,8 @@ class TextFormatModule(
     val formatType: String,
     val bitmask: Int,
     override val iconName: Option[String] = None,
-    override val keyBinding: Option[String] = None
+    override val keyBinding: Option[String] = None,
+    override val metadata: ToolbarMetadata
 ) extends EditorModule:
   override def name: String = formatType.capitalize
 

@@ -2,9 +2,15 @@ package lexical
 
 import scala.scalajs.js
 
+trait ToolbarMetadata:
+  def tabName: String
+  def sectionName: String
+  def order: Int
+
 trait EditorModule extends ToolbarElement:
   def name: String
   def iconName: Option[String] = None
+  def metadata: ToolbarMetadata
   
   def canActivate(editor: LexicalEditor): Boolean = true
   def isActive(editor: LexicalEditor): Boolean = false
