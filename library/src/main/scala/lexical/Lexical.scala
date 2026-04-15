@@ -31,6 +31,8 @@ object Lexical extends js.Object:
   def $getNearestNodeFromDOMNode(domNode: dom.Node): LexicalNode | Null = js.native
   def getDOMSelection(target: dom.Window): dom.Selection | Null = js.native
   def $insertNodes(nodes: js.Array[LexicalNode]): Boolean = js.native
+  def $createNodeSelection(): NodeSelection = js.native
+  def $setSelection(selection: RangeSelection | NodeSelection | Null): Unit = js.native
   def $isTextNode(node: LexicalNode): Boolean = js.native
   def $isParagraphNode(node: LexicalNode): Boolean = js.native
   def $isRootNode(node: LexicalNode): Boolean = js.native

@@ -37,6 +37,7 @@ trait RangeSelection extends BaseSelection:
 @js.native
 trait NodeSelection extends BaseSelection:
   override def getNodes(): js.Array[LexicalNode] = js.native
+  def add(key: NodeKey): Unit = js.native
 
 @js.native
 @JSGlobal("LexicalSelection")

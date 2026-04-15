@@ -40,6 +40,8 @@ object CodeMirrorPlugin:
         lexicalEditor.update(() => {
           val codeMirrorNode = $createCodeMirrorNode(payload.code, payload.language)
           lexical.Lexical.$insertNodes(js.Array(codeMirrorNode))
+          // Attempt to focus the editor after insertion
+          lexicalEditor.focus(() => {}, js.Dynamic.literal().asInstanceOf[EditorFocusOptions])
         }, js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
         true
       },
