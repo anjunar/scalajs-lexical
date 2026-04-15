@@ -6,7 +6,7 @@ import org.scalajs.dom
 import lexical.*
 
 @js.native
-@JSGlobal("CodeMirrorNode")
+@JSImport("/src/codemirror/CodeMirrorNode.js", "CodeMirrorNode")
 class CodeMirrorNode extends DecoratorNode[dom.HTMLElement]:
   def getCode(): String = js.native
   def setCode(code: String): Unit = js.native
@@ -15,15 +15,15 @@ class CodeMirrorNode extends DecoratorNode[dom.HTMLElement]:
   override def getTextContent(): String = js.native
 
 @js.native
-@JSGlobal("$createCodeMirrorNode")
+@JSImport("/src/codemirror/CodeMirrorNode.js", "$createCodeMirrorNode")
 def $createCodeMirrorNode(code: String, language: String): CodeMirrorNode = js.native
 
 @js.native
-@JSGlobal("$isCodeMirrorNode")
+@JSImport("/src/codemirror/CodeMirrorNode.js", "$isCodeMirrorNode")
 def $isCodeMirrorNode(node: LexicalNode | Null): Boolean = js.native
 
 @js.native
-@JSGlobal("handleCodeMirrorMutation")
+@JSImport("/src/codemirror/CodeMirrorNode.js", "handleCodeMirrorMutation")
 def handleCodeMirrorMutation(nodeKey: NodeKey, mutation: String, editor: LexicalEditor): Unit = js.native
 
 object CodeMirrorPlugin:
@@ -46,7 +46,7 @@ object CodeMirrorPlugin:
 
     // Using registerMutationListener to clean up CodeMirror instances when nodes are destroyed
     val removeMutation = editor.registerMutationListener(
-      js.Dynamic.global.CodeMirrorNode,
+      js.constructorOf[CodeMirrorNode],
       (mutations: js.Dynamic, options: js.Dynamic) => {
         // mutations is a js.Map<NodeKey, "created" | "updated" | "destroyed">
         mutations.forEach((mutation: String, nodeKey: String) => {

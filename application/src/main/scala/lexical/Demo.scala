@@ -14,7 +14,7 @@ def main(): Unit =
       paragraph = "editor-paragraph",
       quote = "PlaygroundEditorTheme__quote"
     ),
-    nodes = js.Array(js.Dynamic.global.CodeMirrorNode),
+    nodes = js.Array(js.constructorOf[codemirror.CodeMirrorNode]),
     editable = true
     ).asInstanceOf[EditorConfig]
 
@@ -34,7 +34,6 @@ def main(): Unit =
         val decoratorElement = entry._2
         val container = editor.getElementByKey(nodeKey)
         if (container != null && !container.contains(decoratorElement)) {
-          // Clear container and append the current decorator element
           container.innerHTML = ""
           container.appendChild(decoratorElement)
         }

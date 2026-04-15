@@ -39,7 +39,7 @@ class CodeMirrorComponent {
             // Update the Lexical node when the code changes
             this.lexicalEditor.update(() => {
               const node = $getNodeByKey(this.nodeKey);
-              if (node && window.$isCodeMirrorNode(node)) {
+              if (node && $isCodeMirrorNode(node)) {
                 node.setCode(newCode);
               }
             });
@@ -187,10 +187,3 @@ export function handleCodeMirrorMutation(nodeKey, mutation, editor) {
     }
   }
 }
-
-// Attach to window for Scala.js global access
-window.CodeMirrorNode = CodeMirrorNode;
-window.$createCodeMirrorNode = $createCodeMirrorNode;
-window.$isCodeMirrorNode = $isCodeMirrorNode;
-window.handleCodeMirrorMutation = handleCodeMirrorMutation;
-window.$getNodeByKey = $getNodeByKey;
