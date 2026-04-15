@@ -25,7 +25,8 @@ trait RangeSelection extends BaseSelection:
   def format: Int = js.native
   def isBackward(): Boolean = js.native
   def isFocused(): Boolean = js.native
-  def getNativeText(): String = js.native
+  def getNativeText(): String = js.native // Keeping it for compatibility if needed, but adding the correct one
+  def getTextContent(): String = js.native
   def apply(): Unit = js.native
   def detach(): Unit = js.native
   def insertNodes(nodes: js.Array[LexicalNode]): Boolean = js.native

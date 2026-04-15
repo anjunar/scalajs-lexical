@@ -47,8 +47,10 @@ class ToolbarManager(editor: LexicalEditor, elements: js.Array[ToolbarElement]):
         btn.onclick = (_: dom.MouseEvent) => module.execute(editor)
         
         val updateButton = () => {
-          btn.classList.toggle("active", module.isActive(editor))
-          btn.disabled = !module.canActivate(editor)
+          editor.read(() => {
+            btn.classList.toggle("active", module.isActive(editor))
+            btn.disabled = !module.canActivate(editor)
+          })
         }
         
         updateCallbacks.push(updateButton)

@@ -12,7 +12,7 @@ class TextFormatModule(
 
   override def isActive(editor: LexicalEditor): Boolean =
     val wrapper = editor.getSelectionWrapper()
-    wrapper.rangeSelection.exists(s => (s.format & bitmask) != 0)
+    wrapper.isRangeSelection && (wrapper.format & bitmask) != 0
 
   override def execute(editor: LexicalEditor): Unit =
     editor.dispatchCommand(Lexical.FORMAT_TEXT_COMMAND, formatType)
