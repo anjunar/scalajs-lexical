@@ -1,8 +1,8 @@
 package lexical
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSGlobal
-import org.scalajs.dom as dom
+import scala.scalajs.js.annotation.{JSGlobal, JSImport}
+import org.scalajs.dom
 
 @js.native
 trait LexicalNode extends js.Object:
@@ -43,7 +43,7 @@ trait LexicalNode extends js.Object:
   def exportJSON(): js.Dynamic = js.native
 
 @js.native
-@JSGlobal("TextNode")
+@JSImport("lexical", "TextNode")
 class TextNode(text: String = "", key: NodeKey = "") extends LexicalNode:
   def getText(): String = js.native
   def setText(text: String): TextNode = js.native
@@ -62,7 +62,7 @@ class TextNode(text: String = "", key: NodeKey = "") extends LexicalNode:
   def mergeWithSibling(sibling: TextNode): TextNode = js.native
 
 @js.native
-@JSGlobal("TextNode")
+@JSImport("lexical", "TextNode")
 object TextNode extends TextNodeStatic
 
 @js.native
@@ -72,7 +72,7 @@ trait TextNodeStatic extends js.Object:
   def importJSON(serialized: js.Dynamic): TextNode = js.native
 
 @js.native
-@JSGlobal("ParagraphNode")
+@JSImport("lexical", "ParagraphNode")
 class ParagraphNode(key: NodeKey = "") extends ElementNode(key):
   override def getChildAtIndex(index: Int): LexicalNode | Null = js.native
   override def getChildrenSize(): Int = js.native
@@ -92,7 +92,7 @@ class ParagraphNode(key: NodeKey = "") extends ElementNode(key):
   def setFormat(format: String): ParagraphNode = js.native
 
 @js.native
-@JSGlobal("ParagraphNode")
+@JSImport("lexical", "ParagraphNode")
 object ParagraphNode extends ParagraphNodeStatic
 
 @js.native
@@ -102,7 +102,7 @@ trait ParagraphNodeStatic extends js.Object:
   def importJSON(serialized: js.Dynamic): ParagraphNode = js.native
 
 @js.native
-@JSGlobal("RootNode")
+@JSImport("lexical", "RootNode")
 class RootNode(key: NodeKey = "") extends ElementNode(key):
   override def getChildAtIndex(index: Int): LexicalNode | Null = js.native
   override def getChildrenSize(): Int = js.native
@@ -113,7 +113,7 @@ class RootNode(key: NodeKey = "") extends ElementNode(key):
   override def prepend(child: LexicalNode): RootNode = js.native
 
 @js.native
-@JSGlobal("RootNode")
+@JSImport("lexical", "RootNode")
 object RootNode extends RootNodeStatic
 
 @js.native
@@ -123,7 +123,7 @@ trait RootNodeStatic extends js.Object:
   def importJSON(serialized: js.Dynamic): RootNode = js.native
 
 @js.native
-@JSGlobal("ElementNode")
+@JSImport("lexical", "ElementNode")
 class ElementNode(key: NodeKey = "") extends LexicalNode:
   def getChildAtIndex(index: Int): LexicalNode | Null = js.native
   def getChildrenSize(): Int = js.native
@@ -147,7 +147,7 @@ class ElementNode(key: NodeKey = "") extends LexicalNode:
   def canInsertTextBefore(): Boolean = js.native
 
 @js.native
-@JSGlobal("ElementNode")
+@JSImport("lexical", "ElementNode")
 object ElementNode extends ElementNodeStatic
 
 @js.native
@@ -157,12 +157,12 @@ trait ElementNodeStatic extends js.Object:
   def importJSON(serialized: js.Dynamic): ElementNode = js.native
 
 @js.native
-@JSGlobal("LineBreakNode")
+@JSImport("lexical", "LineBreakNode")
 class LineBreakNode(key: NodeKey = "") extends LexicalNode:
   def isLineBreak(): Boolean = js.native
 
 @js.native
-@JSGlobal("LineBreakNode")
+@JSImport("lexical", "LineBreakNode")
 object LineBreakNode extends LineBreakNodeStatic
 
 @js.native
@@ -172,13 +172,13 @@ trait LineBreakNodeStatic extends js.Object:
   def importJSON(serialized: js.Dynamic): LineBreakNode = js.native
 
 @js.native
-@JSGlobal("DecoratorNode")
+@JSImport("lexical", "DecoratorNode")
 class DecoratorNode[T](key: NodeKey = "") extends LexicalNode:
   def decorate(editor: LexicalEditor): T = js.native
   def getDecorator(): T = js.native
 
 @js.native
-@JSGlobal("DecoratorNode")
+@JSImport("lexical", "DecoratorNode")
 object DecoratorNode extends DecoratorNodeStatic
 
 @js.native
@@ -188,11 +188,11 @@ trait DecoratorNodeStatic extends js.Object:
   def importJSON(serialized: js.Dynamic): DecoratorNode[Any] = js.native
 
 @js.native
-@JSGlobal("TabNode")
+@JSImport("lexical", "TabNode")
 class TabNode(key: NodeKey = "") extends LexicalNode
 
 @js.native
-@JSGlobal("TabNode")
+@JSImport("lexical", "TabNode")
 object TabNode extends TabNodeStatic
 
 @js.native

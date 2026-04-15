@@ -23,10 +23,11 @@ def main(): Unit =
       LexicalRichText.QuoteNode,
       LexicalList.ListNode,
       LexicalList.ListItemNode,
-      LexicalCode.CodeNode
+      LexicalCode.CodeNode,
+      js.constructorOf[ImageNode]
     ))
     .withToolbar(
-      ToolbarGroup(EditorModules.BOLD, EditorModules.ITALIC, new LinkModule()),
+      ToolbarGroup(EditorModules.BOLD, EditorModules.ITALIC, new LinkModule(), new ImageModule()),
       ToolbarSeparator(),
       ToolbarGroup(new ParagraphModule(), new CodeMirrorModule()),
       ToolbarSeparator(),
