@@ -1,4 +1,4 @@
-package lexical.codemirror
+package codemirror
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.*

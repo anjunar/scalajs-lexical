@@ -2,8 +2,7 @@ package lexical
 
 import scala.scalajs.js
 import org.scalajs.dom
-import lexical.codemirror.{$createCodeMirrorNode, CodeMirrorPlugin}
-import org.scalajs.dom.console
+import codemirror.{$createCodeMirrorNode, CodeMirrorPlugin}
 
 @main
 def main(): Unit =
@@ -16,19 +15,31 @@ def main(): Unit =
       quote = "PlaygroundEditorTheme__quote"
     ),
     nodes = js.Array(js.Dynamic.global.CodeMirrorNode),
-    onError = (error: js.Error) => throw error.asInstanceOf[Throwable],
     editable = true
-  ).asInstanceOf[EditorConfig]
+    ).asInstanceOf[EditorConfig]
 
-  val editor = Lexical.createEditor(editorConfig)
+    val editor = Lexical.createEditor(editorConfig)
 
-  editor.setRootElement(editorContainer.asInstanceOf[dom.HTMLElement])
+    editor.setRootElement(editorContainer.asInstanceOf[dom.HTMLElement])
 
-  val unregisterKeyHandlers = setupKeyHandlers(editor)
+    LexicalRichText.registerRichText(editor)
+    LexicalHistory.registerHistory(editor, LexicalHistory.createEmptyHistoryState(), 300)
+    CodeMirrorPlugin.register(editor)
 
-  LexicalRichText.registerRichText(editor)
-  LexicalHistory.registerHistory(editor, LexicalHistory.createEmptyHistoryState(), 300)
-  CodeMirrorPlugin.register(editor)
+    // Robust Decorator Listener for Vanilla JS
+    editor.registerDecoratorListener((decorators: js.Dynamic) => {
+      val decoratorsDict = decorators.asInstanceOf[js.Dictionary[dom.Node]]
+      js.Object.entries(decoratorsDict).foreach { entry =>
+        val nodeKey = entry._1
+        val decoratorElement = entry._2
+        val container = editor.getElementByKey(nodeKey)
+        if (container != null && !container.contains(decoratorElement)) {
+          // Clear container and append the current decorator element
+          container.innerHTML = ""
+          container.appendChild(decoratorElement)
+        }
+      }
+    })
 
   editor.update(() =>
     val root = Lexical.$getRoot()
@@ -36,7 +47,7 @@ def main(): Unit =
     val textNode = Lexical.$createTextNode("Hello Lexical! Click and type here... ")
     paragraph.append(textNode)
     root.append(paragraph)
-  , js.Dynamic.literal(tag = HISTORY_MERGE_TAG).asInstanceOf[EditorUpdateOptions])
+  , js.Dynamic.literal(tag = "history_merge").asInstanceOf[EditorUpdateOptions])
 
   editor.focus(() => (), js.Dynamic.literal().asInstanceOf[EditorFocusOptions])
 
@@ -87,14 +98,3 @@ def setupToolbar(editor: LexicalEditor): Unit =
   toolbar.appendChild(clearBtn)
   toolbar.appendChild(addBtn)
   toolbar.appendChild(addCodeMirrorBtn)
-
-def setupKeyHandlers(editor: LexicalEditor): js.Function0[Unit] =
-  editor.registerCommand(
-    Lexical.KEY_ENTER_COMMAND,
-    (_: Unit, _: LexicalEditor) =>
-      dom.console.log("Enter pressed!")
-      true,
-    COMMAND_PRIORITY.HIGH
-  )
-
-val HISTORY_MERGE_TAG = "history-merge"
