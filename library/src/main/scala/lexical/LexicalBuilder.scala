@@ -7,12 +7,13 @@ class LexicalBuilder:
   private var _namespace: String = "Lexical Editor"
   private var _theme: EditorTheme = js.Dynamic.literal().asInstanceOf[EditorTheme]
   private var _nodes: js.Array[js.Any] = js.Array()
-  private var _modules: js.Array[EditorModule] = js.Array()
+  private var _modules: Seq[EditorModule] = Seq.empty
   private var _toolbarElements: js.Array[ToolbarElement] = js.Array()
   private var _floatingToolbarElements: js.Array[ToolbarElement] = js.Array()
   private var _editable: Boolean = true
   private var _initialState: Option[String] = None
   private var _onStateChange: Option[String => Unit] = None
+  private var _placeholder: String = ""
 
   def withNamespace(name: String): this.type =
     _namespace = name
@@ -27,7 +28,11 @@ class LexicalBuilder:
     this
 
   def withModules(modules: EditorModule*): this.type =
-    _modules = js.Array(modules*)
+    _modules = _modules ++ modules
+    this
+
+  def withPlaceholder(text: String): this.type =
+    _placeholder = text
     this
 
   private def extractModulesFromElements(elements: js.Array[ToolbarElement]): Seq[EditorModule] =
@@ -39,12 +44,12 @@ class LexicalBuilder:
 
   def withToolbar(elements: ToolbarElement*): this.type =
     _toolbarElements = js.Array(elements*)
-    _modules = js.Array((_modules.toSeq ++ extractModulesFromElements(_toolbarElements))*)
+    _modules = _modules ++ extractModulesFromElements(_toolbarElements)
     this
 
   def withFloatingToolbar(elements: ToolbarElement*): this.type =
     _floatingToolbarElements = js.Array(elements*)
-    _modules = js.Array((_modules.toSeq ++ extractModulesFromElements(_floatingToolbarElements))*)
+    _modules = _modules ++ extractModulesFromElements(_floatingToolbarElements)
     this
 
   def withEditable(editable: Boolean): this.type =
@@ -72,7 +77,37 @@ class LexicalBuilder:
     ).asInstanceOf[EditorConfig]
 
     val editor = Lexical.createEditor(config)
-    container.foreach(editor.setRootElement)
+    
+    container.foreach { c =>
+      c.classList.add("lexical-editor-container")
+      
+      // If we have a placeholder, create it
+      if (_placeholder.nonEmpty) {
+        val placeholderDiv = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
+        placeholderDiv.className = "lexical-placeholder"
+        placeholderDiv.textContent = _placeholder
+        c.appendChild(placeholderDiv)
+        
+        // Show/hide placeholder based on editor state
+        editor.registerUpdateListener(_ => {
+          editor.getEditorState().read(() => {
+            val root = Lexical.$getRoot()
+            val isEmpty = root.isEmpty()
+            placeholderDiv.style.display = if (isEmpty) "block" else "none"
+          })
+        })
+      }
+      
+      val rootElement = editor.getRootElement()
+      if (rootElement != null) {
+        rootElement.classList.add("lexical-editor-input")
+      } else {
+        // We might need to set the root element first
+        // In this case, we'll hook into setRootElement if possible or just use the container if it's the root
+        c.classList.add("lexical-editor-input") // Fallback
+        editor.setRootElement(c)
+      }
+    }
 
     // Standard Registrations
     LexicalRichText.registerRichText(editor)
@@ -96,6 +131,7 @@ class LexicalBuilder:
     // Module Registrations
     _modules.distinct.foreach(_.register(editor))
 
+
     // Floating Toolbar
     if (_floatingToolbarElements.nonEmpty) {
       new FloatingToolbarManager(editor, _floatingToolbarElements).register()
@@ -117,5 +153,5 @@ class LexicalBuilder:
 
     editor
 
-  def getModules: js.Array[EditorModule] = _modules
+  def getModules: js.Array[EditorModule] = js.Array(_modules*)
   def getToolbarElements: js.Array[ToolbarElement] = _toolbarElements

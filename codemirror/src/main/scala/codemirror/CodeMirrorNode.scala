@@ -31,17 +31,19 @@ object CodeMirrorPlugin:
     var code: String
     var language: String
 
-  val INSERT_CODEMIRROR_COMMAND: LexicalCommand[CodeMirrorPayload] = lexical.createCommand[CodeMirrorPayload]("INSERT_CODEMIRROR")
+  val INSERT_CODEMIRROR_COMMAND: LexicalCommand[CodeMirrorPayload] = Lexical.createCommand[CodeMirrorPayload]("INSERT_CODEMIRROR")
 
   def register(editor: LexicalEditor): js.Function0[Unit] =
     val removeCommand = editor.registerCommand(
       INSERT_CODEMIRROR_COMMAND,
       (payload: CodeMirrorPayload, lexicalEditor: LexicalEditor) => {
-        val codeMirrorNode = $createCodeMirrorNode(payload.code, payload.language)
-        lexical.Lexical.$insertNodes(js.Array(codeMirrorNode))
+        lexicalEditor.update(() => {
+          val codeMirrorNode = $createCodeMirrorNode(payload.code, payload.language)
+          lexical.Lexical.$insertNodes(js.Array(codeMirrorNode))
+        }, js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
         true
       },
-      lexical.COMMAND_PRIORITY.CRITICAL
+      lexical.COMMAND_PRIORITY.EDITOR
     )
 
     // Using registerMutationListener to clean up CodeMirror instances when nodes are destroyed

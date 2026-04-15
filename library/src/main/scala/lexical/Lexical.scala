@@ -46,7 +46,8 @@ object Lexical extends js.Object:
   def UNDO_COMMAND: LexicalCommand[Unit] = js.native
   def REDO_COMMAND: LexicalCommand[Unit] = js.native
   def SELECTION_CHANGE_COMMAND: LexicalCommand[Unit] = js.native
-  def INSERT_IMAGE_COMMAND: LexicalCommand[ImagePayload] = js.native
+  @JSName("createCommand")
+  def createCommand[P](name: String): LexicalCommand[P] = js.native
 
 trait ImagePayload extends js.Object:
   var src: String

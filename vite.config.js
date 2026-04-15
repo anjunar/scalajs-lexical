@@ -11,5 +11,10 @@ export default defineConfig({
     },
     plugins: [
         scalaJSPlugin(),
-    ]
+    ],
+    resolve: {
+        alias: {
+            "@lexical-css": resolve(__dirname, "./library/src/main/resources/lexical/index.css")
+        }
+    }
 });

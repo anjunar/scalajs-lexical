@@ -51,12 +51,16 @@ object ImageNode:
   @JSExportStatic
   def isImageNode(node: LexicalNode | Null): Boolean = node != null && node.getType() == getType()
 
+  val INSERT_IMAGE_COMMAND: LexicalCommand[ImagePayload] = Lexical.createCommand[ImagePayload]("INSERT_IMAGE_COMMAND")
+
   def register(editor: LexicalEditor): js.Function0[Unit] =
     editor.registerCommand(
-      Lexical.INSERT_IMAGE_COMMAND,
-      (payload: ImagePayload, _: LexicalEditor) => {
-        val imageNode = new ImageNode(payload.src, payload.altText, payload.maxWidth)
-        Lexical.$insertNodes(js.Array(imageNode))
+      INSERT_IMAGE_COMMAND,
+      (payload: ImagePayload, lexicalEditor: LexicalEditor) => {
+        lexicalEditor.update(() => {
+          val imageNode = new ImageNode(payload.src, payload.altText, payload.maxWidth)
+          Lexical.$insertNodes(js.Array(imageNode))
+        }, js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
         true
       },
       COMMAND_PRIORITY.EDITOR

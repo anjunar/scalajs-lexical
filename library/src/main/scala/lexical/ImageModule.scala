@@ -31,7 +31,7 @@ class ImageModule extends EditorModule:
     Dialog.show("Insert Image", content, () => {
       val src = urlInput.value
       if (src.nonEmpty) {
-        editor.dispatchCommand(Lexical.INSERT_IMAGE_COMMAND, new ImagePayload:
+        editor.dispatchCommand(ImageNode.INSERT_IMAGE_COMMAND, new ImagePayload:
           var src = urlInput.value
           var altText = altInput.value
           var maxWidth = 500

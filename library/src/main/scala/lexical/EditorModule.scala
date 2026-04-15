@@ -14,3 +14,9 @@ trait EditorModule extends ToolbarElement:
   def keyBinding: Option[String] = None
   
   def register(editor: LexicalEditor): js.Function0[Unit] = () => ()
+
+  override def equals(other: Any): Boolean = other match
+    case that: EditorModule => this.name == that.name
+    case _ => false
+
+  override def hashCode(): Int = name.hashCode()

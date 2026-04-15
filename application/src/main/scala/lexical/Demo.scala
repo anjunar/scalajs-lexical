@@ -11,9 +11,13 @@ def main(): Unit =
 
   val builder = new LexicalBuilder()
     .withNamespace("Lexical Scala.js Demo")
+    .withPlaceholder("Enter some rich text...")
     .withTheme(new EditorThemeBuilder()
-      .withParagraph("editor-paragraph")
-      .withQuote("PlaygroundEditorTheme__quote")
+      .withParagraph("lexical-paragraph")
+      .withQuote("lexical-quote")
+      .withTextBold("lexical-text-bold")
+      .withTextItalic("lexical-text-italic")
+      .withCode("lexical-text-code")
       .build()
     )
     .withNodes(js.Array(
