@@ -131,7 +131,6 @@ class LexicalBuilder:
 
     // Module Registrations
     _modules.distinct.foreach(_.register(editor))
-    editor.setDialogService(DefaultDialogService)
 
     // Ribbon Toolbar
     if (_ribbonModules.nonEmpty) {

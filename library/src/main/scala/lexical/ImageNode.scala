@@ -52,6 +52,7 @@ object ImageNode:
   def isImageNode(node: LexicalNode | Null): Boolean = node != null && node.getType() == getType()
 
   val INSERT_IMAGE_COMMAND: LexicalCommand[ImagePayload] = Lexical.createCommand[ImagePayload]("INSERT_IMAGE_COMMAND")
+  val OPEN_IMAGE_DIALOG_COMMAND: LexicalCommand[LexicalEditor] = Lexical.createCommand[LexicalEditor]("OPEN_IMAGE_DIALOG_COMMAND")
 
   def register(editor: LexicalEditor): js.Function0[Unit] =
     editor.registerCommand(

@@ -12,36 +12,7 @@ class ImageModule extends EditorModule:
     val order = 1
 
   override def execute(editor: LexicalEditor): Unit =
-    val content = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
-    
-    val urlLabel = dom.document.createElement("label").asInstanceOf[dom.HTMLElement]
-    urlLabel.textContent = "Image URL"
-    val urlInput = dom.document.createElement("input").asInstanceOf[dom.HTMLInputElement]
-    urlInput.placeholder = "https://..."
-    urlInput.style.width = "100%"
-    urlInput.style.marginBottom = "8px"
-    
-    val altLabel = dom.document.createElement("label").asInstanceOf[dom.HTMLElement]
-    altLabel.textContent = "Alt Text"
-    val altInput = dom.document.createElement("input").asInstanceOf[dom.HTMLInputElement]
-    altInput.placeholder = "Description"
-    altInput.style.width = "100%"
-    
-    content.appendChild(urlLabel)
-    content.appendChild(urlInput)
-    content.appendChild(altLabel)
-    content.appendChild(altInput)
-    
-    editor.getDialogService.show("Insert Image", content, () => {
-      val src = urlInput.value
-      if (src.nonEmpty) {
-        editor.dispatchCommand(ImageNode.INSERT_IMAGE_COMMAND, new ImagePayload:
-          var src = urlInput.value
-          var altText = altInput.value
-          var maxWidth = 500
-        )
-      }
-    })
+    editor.dispatchCommand(ImageNode.OPEN_IMAGE_DIALOG_COMMAND, editor)
 
   override def register(editor: LexicalEditor): js.Function0[Unit] =
     ImageNode.register(editor)

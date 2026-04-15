@@ -1,9 +1,10 @@
 package lexical
 
 import org.scalajs.dom
+import org.scalajs.dom.HTMLElement
 
-object Dialog:
-  def show(title: String, content: dom.HTMLElement, onConfirm: () => Unit): Unit =
+class DemoDialogService extends DialogService:
+  override def show(title: String, contentProvider: () => HTMLElement, onConfirm: HTMLElement => Unit): Unit =
     val backdrop = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
     backdrop.className = "modal-backdrop"
     
@@ -14,6 +15,7 @@ object Dialog:
     titleEl.textContent = title
     modal.appendChild(titleEl)
     
+    val content = contentProvider()
     modal.appendChild(content)
     
     val actions = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
@@ -32,7 +34,7 @@ object Dialog:
     confirmBtn.textContent = "Confirm"
     confirmBtn.className = "confirm-btn"
     confirmBtn.onclick = (_: dom.MouseEvent) =>
-      onConfirm()
+      onConfirm(content)
       close()
     
     actions.appendChild(cancelBtn)
