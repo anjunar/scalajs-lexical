@@ -90,3 +90,33 @@
     justify-content: flex-end;
     gap: 10px;
 }
+
+.image-node-container {
+    display: inline-block;
+    position: relative;
+    cursor: default;
+    border: 2px solid transparent;
+}
+
+.image-node-container.focused {
+    border-color: #007bff;
+}
+
+.image-resizer {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #007bff;
+    border-radius: 50%;
+    cursor: nwse-resize;
+    display: none;
+}
+
+.image-node-container.focused .image-resizer {
+    display: block;
+}
+
+.image-resizer.bottom-right {
+    bottom: -5px;
+    right: -5px;
+}

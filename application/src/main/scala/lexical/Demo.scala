@@ -59,14 +59,31 @@ def main(): Unit =
     editor.getDialogService.show("Insert Image", () => {
       val content = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
       
-      val urlLabel = dom.document.createElement("label").asInstanceOf[dom.HTMLElement]
-      urlLabel.textContent = "Image URL"
-      val urlInput = dom.document.createElement("input").asInstanceOf[dom.HTMLInputElement]
-      urlInput.placeholder = "https://..."
-      urlInput.id = "image-url-input"
-      urlInput.style.width = "100%"
-      urlInput.style.marginBottom = "8px"
+      val preview = dom.document.createElement("img").asInstanceOf[dom.HTMLImageElement]
+      preview.style.width = "320px"
+      preview.style.height = "200px"
+      preview.style.backgroundColor = "#eee"
+      preview.style.display = "block"
+      preview.style.marginBottom = "10px"
+      preview.style.setProperty("object-fit", "cover")
+      preview.id = "image-preview"
+
+      val fileInput = dom.document.createElement("input").asInstanceOf[dom.HTMLInputElement]
+      fileInput.setAttribute("type", "file")
+      fileInput.accept = "image/*"
+      fileInput.style.marginBottom = "10px"
       
+      fileInput.onchange = (_: dom.Event) => {
+        val file = fileInput.files.item(0)
+        if (file != null) {
+          val reader = new dom.FileReader()
+          reader.onload = (e: dom.Event) => {
+            preview.src = reader.result.asInstanceOf[String]
+          }
+          reader.readAsDataURL(file)
+        }
+      }
+
       val altLabel = dom.document.createElement("label").asInstanceOf[dom.HTMLElement]
       altLabel.textContent = "Alt Text"
       val altInput = dom.document.createElement("input").asInstanceOf[dom.HTMLInputElement]
@@ -74,20 +91,31 @@ def main(): Unit =
       altInput.id = "image-alt-input"
       altInput.style.width = "100%"
       
-      content.appendChild(urlLabel)
-      content.appendChild(urlInput)
+      val widthLabel = dom.document.createElement("label").asInstanceOf[dom.HTMLElement]
+      widthLabel.textContent = "Width (px)"
+      val widthInput = dom.document.createElement("input").asInstanceOf[dom.HTMLInputElement]
+      widthInput.setAttribute("type", "number")
+      widthInput.value = "500"
+      widthInput.id = "image-width-input"
+      widthInput.style.width = "100%"
+
+      content.appendChild(preview)
+      content.appendChild(fileInput)
       content.appendChild(altLabel)
       content.appendChild(altInput)
+      content.appendChild(widthLabel)
+      content.appendChild(widthInput)
       content
     }, (content) => {
-      val urlInput = content.querySelector("#image-url-input").asInstanceOf[dom.HTMLInputElement]
+      val preview = content.querySelector("#image-preview").asInstanceOf[dom.HTMLImageElement]
       val altInput = content.querySelector("#image-alt-input").asInstanceOf[dom.HTMLInputElement]
-      val src = urlInput.value
+      val widthInput = content.querySelector("#image-width-input").asInstanceOf[dom.HTMLInputElement]
+      val src = preview.src
       if (src.nonEmpty) {
         editor.dispatchCommand(ImageNode.INSERT_IMAGE_COMMAND, new ImagePayload:
-          var src = urlInput.value
+          var src = preview.src
           var altText = altInput.value
-          var maxWidth = 500
+          var maxWidth = widthInput.value.toIntOption.getOrElse(500)
         )
       }
     })
