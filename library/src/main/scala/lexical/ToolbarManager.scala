@@ -9,11 +9,25 @@ class ToolbarManager(editor: LexicalEditor, elements: js.Array[ToolbarElement]):
   def createToolbar(container: dom.HTMLElement): Unit =
     elements.foreach(renderElement(_, container))
     
-    // Only update on state changes, NOT on every selection change command
-    // to avoid interfering with mouse dragging
-    editor.registerUpdateListener((_ : js.Dynamic) => {
-      updateCallbacks.foreach(_())
-    })
+    val updateAll = () => {
+      // Small delay to ensure Lexical has updated its internal selection
+      dom.window.requestAnimationFrame((_: Double) => {
+        updateCallbacks.foreach(_())
+      })
+    }
+    
+    // Update on state changes
+    editor.registerUpdateListener((_ : js.Dynamic) => updateAll())
+    
+    // Update on selection changes (cursor moving)
+    editor.registerCommand(
+      Lexical.SELECTION_CHANGE_COMMAND,
+      (_: Unit, _: LexicalEditor) => {
+        updateAll()
+        false
+      },
+      COMMAND_PRIORITY.LOW
+    )
 
   private def renderElement(element: ToolbarElement, parent: dom.HTMLElement): Unit =
     element match
