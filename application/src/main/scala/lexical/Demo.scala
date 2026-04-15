@@ -24,7 +24,20 @@ def main(): Unit =
 
     LexicalRichText.registerRichText(editor)
     LexicalHistory.registerHistory(editor, LexicalHistory.createEmptyHistoryState(), 300)
-    CodeMirrorPlugin.register(editor)
+    
+    val modules = js.Array[EditorModule](
+      EditorModules.BOLD,
+      EditorModules.ITALIC,
+      new ParagraphModule(),
+      new codemirror.CodeMirrorModule(),
+      EditorModules.CLEAR
+    )
+
+    modules.foreach(_.register(editor))
+
+    val toolbarContainer = dom.document.getElementById("toolbar").asInstanceOf[dom.HTMLElement]
+    val toolbarManager = new ToolbarManager(editor, modules)
+    toolbarManager.createToolbar(toolbarContainer)
 
     // Robust Decorator Listener for Vanilla JS
     editor.registerDecoratorListener((decorators: js.Dynamic) => {
@@ -50,50 +63,17 @@ def main(): Unit =
 
   editor.focus(() => (), js.Dynamic.literal().asInstanceOf[EditorFocusOptions])
 
-  setupToolbar(editor)
-
   dom.console.log("Lexical Demo initialized!")
 
-def setupToolbar(editor: LexicalEditor): Unit =
-  val toolbar = dom.document.getElementById("toolbar")
-
-  val boldBtn = dom.document.createElement("button").asInstanceOf[dom.HTMLElement]
-  boldBtn.textContent = "Bold"
-  boldBtn.onclick = (_: dom.MouseEvent) =>
-    editor.dispatchCommand(Lexical.FORMAT_TEXT_COMMAND, "bold")
-
-  val italicBtn = dom.document.createElement("button").asInstanceOf[dom.HTMLElement]
-  italicBtn.textContent = "Italic"
-  italicBtn.onclick = (_: dom.MouseEvent) =>
-    editor.dispatchCommand(Lexical.FORMAT_TEXT_COMMAND, "italic")
-
-  val clearBtn = dom.document.createElement("button").asInstanceOf[dom.HTMLElement]
-  clearBtn.textContent = "Clear"
-  clearBtn.onclick = (_: dom.MouseEvent) =>
-    editor.dispatchCommand(Lexical.CLEAR_EDITOR_COMMAND, ())
-
-  val addBtn = dom.document.createElement("button").asInstanceOf[dom.HTMLElement]
-  addBtn.textContent = "+ Para"
-  addBtn.onclick = (_: dom.MouseEvent) =>
-    editor.update(() =>
+class ParagraphModule extends EditorModule:
+  override def name: String = "Paragraph"
+  override def iconName: Option[String] = Some("add")
+  
+  override def execute(editor: LexicalEditor): Unit =
+    editor.update(() => {
       val root = Lexical.$getRoot()
       val paragraph = Lexical.$createParagraphNode()
       val text = Lexical.$createTextNode("New paragraph! ")
       paragraph.append(text)
       root.append(paragraph)
-    , js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
-
-  val addCodeMirrorBtn = dom.document.createElement("button").asInstanceOf[dom.HTMLElement]
-  addCodeMirrorBtn.textContent = "+ Code"
-  addCodeMirrorBtn.onclick = (_: dom.MouseEvent) =>
-    editor.update(() =>
-      val root = Lexical.$getRoot()
-      val codeMirrorNode = $createCodeMirrorNode("console.log('Hello from CodeMirror!');", "javascript")
-      root.append(codeMirrorNode)
-    , js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
-
-  toolbar.appendChild(boldBtn)
-  toolbar.appendChild(italicBtn)
-  toolbar.appendChild(clearBtn)
-  toolbar.appendChild(addBtn)
-  toolbar.appendChild(addCodeMirrorBtn)
+    }, js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])

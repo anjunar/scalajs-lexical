@@ -22,6 +22,7 @@ trait BaseSelection extends js.Object:
 trait RangeSelection extends BaseSelection:
   def anchor: Point = js.native
   def focus: Point = js.native
+  def format: Int = js.native
   def isBackward(): Boolean = js.native
   def isFocused(): Boolean = js.native
   def getNativeText(): String = js.native
