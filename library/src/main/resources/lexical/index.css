@@ -128,3 +128,31 @@
 .lexical-text-strikethrough {
     text-decoration: line-through;
 }
+
+.lexical-floating-toolbar {
+    background: #333;
+    padding: 5px;
+    border-radius: 6px;
+    display: flex;
+    gap: 2px;
+}
+
+.lexical-floating-button {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.lexical-floating-button:hover {
+    background: #555;
+}
+
+.lexical-floating-button.active {
+    background: #555;
+    color: #add8e6;
+}

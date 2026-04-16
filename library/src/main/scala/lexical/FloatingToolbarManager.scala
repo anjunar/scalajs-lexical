@@ -11,7 +11,7 @@ class FloatingToolbarManager(editor: LexicalEditor, modules: Seq[EditorModule]):
   toolbarDiv.style.zIndex = "1000"
   
   private val registry = new ToolbarRegistry(modules.toList)
-  private val renderer = new RibbonRenderer()
+  private val renderer = new FloatingToolbarRenderer()
   private val innerManager = new ToolbarManager(editor, registry, renderer)
   innerManager.createToolbar(toolbarDiv)
   dom.document.body.appendChild(toolbarDiv)
