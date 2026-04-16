@@ -90,6 +90,8 @@ class LexicalBuilder:
     
     container.foreach { c =>
       c.classList.add("lexical-editor-container")
+      c.setAttribute("contenteditable", _editable.toString)
+      c.setAttribute("spellcheck", "true")
       
       // If we have a placeholder, create it
       if (_placeholder.nonEmpty) {
@@ -111,6 +113,8 @@ class LexicalBuilder:
       val rootElement = editor.getRootElement()
       if (rootElement != null) {
         rootElement.classList.add("lexical-editor-input")
+        rootElement.setAttribute("contenteditable", _editable.toString)
+        rootElement.setAttribute("spellcheck", "true")
       } else {
         // We might need to set the root element first
         // In this case, we'll hook into setRootElement if possible or just use the container if it's the root
@@ -122,7 +126,8 @@ class LexicalBuilder:
     // Standard Registrations
     LexicalRichText.registerRichText(editor)
     LexicalHistory.registerHistory(editor, LexicalHistory.createEmptyHistoryState(), 300)
-    LexicalTable.registerTablePlugin(editor)
+    if hasTableSupportNodes then
+      LexicalTable.registerTablePlugin(editor)
 
     // Initial State
     _initialState.foreach { json =>
@@ -167,6 +172,13 @@ class LexicalBuilder:
     })
 
     editor
+
+  private def hasTableSupportNodes: Boolean =
+    Seq(
+      LexicalTable.TableNode,
+      LexicalTable.TableRowNode,
+      LexicalTable.TableCellNode
+    ).forall(node => _nodes.exists(_ == node))
 
   def getModules: js.Array[EditorModule] = js.Array(_modules*)
   def getRibbonModules: Seq[ToolbarElement] = _ribbonElements

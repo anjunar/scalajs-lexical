@@ -1,5 +1,6 @@
 package lexical
 
+import scala.scalajs.js
 import org.scalajs.dom
 import org.scalajs.dom.{HTMLElement, document}
 
@@ -43,10 +44,21 @@ class RibbonRenderer extends ToolbarRenderer:
           case dropdown: ToolbarDropdown =>
             val wrapper = document.createElement("div").asInstanceOf[HTMLElement]
             wrapper.className = "lexical-dropdown-wrapper"
+            wrapper.style.position = "relative"
             
             val trigger = document.createElement("button").asInstanceOf[dom.HTMLButtonElement]
             trigger.className = "lexical-ribbon-button"
-            trigger.textContent = dropdown.name
+            trigger.asInstanceOf[js.Dynamic].updateDynamic("type")("button")
+
+            val updateTriggerLabel = () => {
+              val selectedValue = editor.read(() => dropdown.getSelectedValue(editor))
+              val selectedLabel =
+                dropdown.options.find(_.value == selectedValue).map(_.label).getOrElse(selectedValue)
+              trigger.textContent = s"${dropdown.name}: $selectedLabel"
+              trigger.title = s"${dropdown.name} - $selectedLabel"
+            }
+            updateTriggerLabel()
+            editor.registerUpdateListener(_ => updateTriggerLabel())
             
             val menu = document.createElement("div").asInstanceOf[HTMLElement]
             menu.className = "lexical-dropdown-menu"
@@ -72,11 +84,12 @@ class RibbonRenderer extends ToolbarRenderer:
               menu.style.display = if (menu.style.display == "none") "block" else "none"
             }
             wrapper.appendChild(trigger)
-            container.appendChild(menu)
+            wrapper.appendChild(menu)
             buttonsContainer.appendChild(wrapper)
           case em: EditorModule =>
             val btn = document.createElement("button").asInstanceOf[org.scalajs.dom.HTMLButtonElement]
             btn.className = "lexical-ribbon-button"
+            btn.asInstanceOf[js.Dynamic].updateDynamic("type")("button")
             em.iconName.foreach { icon =>
               val iconSpan = document.createElement("span").asInstanceOf[HTMLElement]
               iconSpan.className = "material-icons"
