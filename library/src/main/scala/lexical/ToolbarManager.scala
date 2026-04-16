@@ -11,4 +11,5 @@ class ToolbarManager(
   def createToolbar(container: dom.HTMLElement): Unit =
     val model = registry.getModel
     val toolbarElement = renderer.render(model, editor)
+    container.innerHTML = ""
     container.appendChild(toolbarElement)
