@@ -122,6 +122,7 @@ class LexicalBuilder:
     // Standard Registrations
     LexicalRichText.registerRichText(editor)
     LexicalHistory.registerHistory(editor, LexicalHistory.createEmptyHistoryState(), 300)
+    LexicalTable.registerTablePlugin(editor)
 
     // Initial State
     _initialState.foreach { json =>

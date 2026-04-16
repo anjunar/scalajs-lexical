@@ -218,3 +218,23 @@
 .lexical-dropdown-item:hover {
     background: #f0f0f0;
 }
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px 0;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+th, td {
+    padding: 8px;
+    min-width: 50px;
+    text-align: left;
+}
+
+.table-cell-selected {
+    background-color: #cce5ff;
+}

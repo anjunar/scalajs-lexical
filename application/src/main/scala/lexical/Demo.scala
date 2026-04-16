@@ -30,6 +30,9 @@ def main(): Unit =
       LexicalRichText.QuoteNode,
       LexicalList.ListNode,
       LexicalList.ListItemNode,
+      LexicalTable.TableNode,
+      LexicalTable.TableRowNode,
+      LexicalTable.TableCellNode,
       LexicalCode.CodeNode,
       js.constructorOf[ImageNode]
     ))
@@ -45,6 +48,8 @@ def main(): Unit =
       new RedoModule(),
       new LinkModule(),
       new ImageModule(),
+      new TableModule(),
+      new RemoveTableModule(),
       new CodeMirrorModule(),
       new MarkdownModule()
     )

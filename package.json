@@ -35,6 +35,7 @@
     "@lexical/list": "^0.43.0",
     "@lexical/markdown": "^0.43.0",
     "@lexical/rich-text": "^0.43.0",
+    "@lexical/table": "^0.43.0",
     "@lexical/utils": "^0.43.0",
     "codemirror": "^6.0.1",
     "lexical": "^0.43.0"

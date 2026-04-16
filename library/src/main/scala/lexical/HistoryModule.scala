@@ -12,7 +12,7 @@ class HistoryModule(val historyState: HistoryState) extends EditorModule:
   override def execute(editor: LexicalEditor): Unit = {}
 
   override def register(editor: LexicalEditor): js.Function0[Unit] =
-    LexicalHistory.registerHistory(editor, historyState)
+    LexicalHistory.registerHistory(editor, historyState, 300)
 
 class UndoModule extends CommandModule[Unit](
   "Undo",

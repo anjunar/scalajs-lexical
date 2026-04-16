@@ -45,6 +45,7 @@ object Lexical extends js.Object:
   def $getNodeByKey(key: NodeKey): LexicalNode | Null = js.native
   def KEY_ENTER_COMMAND: LexicalCommand[Unit] = js.native
   def FORMAT_TEXT_COMMAND: LexicalCommand[String] = js.native
+  def DELETE_COMMAND: LexicalCommand[Unit] = js.native
   def CLEAR_EDITOR_COMMAND: LexicalCommand[Unit] = js.native
   def CLEAR_HISTORY_COMMAND: LexicalCommand[Unit] = js.native
   def UNDO_COMMAND: LexicalCommand[Unit] = js.native
