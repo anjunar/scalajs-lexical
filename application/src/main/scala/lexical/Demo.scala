@@ -67,9 +67,8 @@ def main(): Unit =
       if (stateDiv != null) {
         stateDiv.textContent = json
         // Update the visual timestamp in the metadata section
-        val global = js.Dynamic.global
-        if (global.updateStateTimestamp != null) {
-          global.updateStateTimestamp()
+        if (!js.isUndefined(js.Dynamic.global.updateStateTimestamp)) {
+          js.Dynamic.global.updateStateTimestamp()
         }
       }
     })
