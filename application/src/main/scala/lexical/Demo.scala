@@ -9,6 +9,7 @@ def main(): Unit =
   val editorContainer = dom.document.getElementById("editor").asInstanceOf[dom.HTMLElement]
   val toolbarContainer = dom.document.getElementById("toolbar").asInstanceOf[dom.HTMLElement]
 
+  val historyState = LexicalHistory.createEmptyHistoryState()
   val builder = new LexicalBuilder()
     .withNamespace("Lexical Scala.js Demo")
     .withPlaceholder("Enter some rich text...")
@@ -40,11 +41,14 @@ def main(): Unit =
       EditorModules.STRIKETHROUGH,
       ListModules.BULLET,
       ListModules.NUMBERED,
+      new UndoModule(),
+      new RedoModule(),
       new LinkModule(),
       new ImageModule(),
       new CodeMirrorModule(),
       new MarkdownModule()
     )
+    .withModules(new HistoryModule(historyState), new MarkdownModule())
 
     .withFloatingToolbar(
       EditorModules.BOLD,
@@ -62,6 +66,14 @@ def main(): Unit =
     })
 
   val editor = builder.build(editorContainer)
+  
+  // AutoLink configuration
+  val urlRegExp = new js.RegExp(
+    "((https?://|www\\.)[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&//=]*))",
+    "g"
+  )
+  val emailRegExp = new js.RegExp("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", "g")
+  
   js.Dynamic.global.window.editor = editor
   LexicalList.registerList(editor)
   
