@@ -1,5 +1,6 @@
 import org.scalajs.linker.interface.{ESVersion, ModuleKind}
 import org.scalajs.sbtplugin.ScalaJSPlugin
+import xerial.sbt.Sonatype._
 
 ThisBuild / version := "1.0.0"
 ThisBuild / organization := "com.anjunar"
@@ -29,6 +30,7 @@ ThisBuild / developers := List(
 ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / publishMavenStyle := true
+ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
 ThisBuild / publishTo := {
   if (isSnapshot.value) {
     Some("central-snapshots" at "https://central.sonatype.com/repository/maven-snapshots/")
@@ -56,19 +58,9 @@ lazy val library = (project in file("library"))
     publishMavenStyle := true
   )
 
-lazy val codemirror = (project in file("codemirror"))
-  .enablePlugins(ScalaJSPlugin)
-  .dependsOn(library)
-  .settings(
-    name := "lexical-codemirror",
-    moduleName := "lexical-codemirror",
-    commonSettings,
-    publishMavenStyle := true
-  )
-
 lazy val application = Project(id = "scalajs-lexical-demo", base = file("application"))
   .enablePlugins(ScalaJSPlugin)
-  .dependsOn(library, codemirror)
+  .dependsOn(library)
   .settings(
     name := "lexical-demo",
     commonSettings,
@@ -77,7 +69,7 @@ lazy val application = Project(id = "scalajs-lexical-demo", base = file("applica
   )
 
 lazy val root = (project in file("."))
-  .aggregate(library, codemirror, application)
+  .aggregate(library, application)
   .settings(
     publish / skip := true
   )

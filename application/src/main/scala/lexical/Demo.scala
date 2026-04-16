@@ -2,7 +2,7 @@ package lexical
 
 import scala.scalajs.js
 import org.scalajs.dom
-import codemirror.CodeMirrorModule
+import lexical.codemirror.{CodeMirrorModule, CodeMirrorNode}
 
 @main
 def main(): Unit =
@@ -24,7 +24,7 @@ def main(): Unit =
       .build()
     )
     .withNodes(js.Array(
-      js.constructorOf[codemirror.CodeMirrorNode],
+      js.constructorOf[lexical.codemirror.CodeMirrorNode],
       LexicalLink.LinkNode,
       LexicalRichText.HeadingNode,
       LexicalRichText.QuoteNode,

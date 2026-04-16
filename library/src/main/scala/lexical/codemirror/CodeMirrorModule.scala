@@ -1,4 +1,4 @@
-package codemirror
+package lexical.codemirror
 
 import scala.scalajs.js
 import org.scalajs.dom
