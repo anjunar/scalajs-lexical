@@ -21,8 +21,11 @@ window.document.documentElement.innerHTML = `<!doctype html>
     <div id="toolbar"></div>
     <div id="editor" contenteditable="true"></div>
     <pre id="state"></pre>
+    <div id="last-update"></div>
   </body>
 </html>`;
+
+window.updateStateTimestamp = () => {};
 
 installBrowserGlobals(window);
 
@@ -99,6 +102,7 @@ function installBrowserGlobals(window) {
     requestAnimationFrame: window.requestAnimationFrame.bind(window),
     cancelAnimationFrame: window.cancelAnimationFrame.bind(window),
     ResizeObserver: window.ResizeObserver ?? fallbackResizeObserver,
+    updateStateTimestamp: window.updateStateTimestamp,
     // Lexical often needs these:
     Selection: window.Selection,
     Range: window.Range,

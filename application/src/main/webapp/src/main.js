@@ -2,11 +2,19 @@ import './index.css'
 import '@lexical-css'
 import 'scalajs:main.js'
 
+// Update timestamp when state changes (hooked into window for simplicity)
+window.updateStateTimestamp = () => {
+  const lastUpdate = document.getElementById('last-update');
+  if (lastUpdate) {
+    const now = new Date();
+    lastUpdate.textContent = `Last updated: ${now.toLocaleTimeString()}`;
+  }
+};
+
 // Showcase Interaction Logic
 document.addEventListener('DOMContentLoaded', () => {
   const sidebarItems = document.querySelectorAll('.sidebar-nav li[data-mode]');
   const resonanceMsg = document.getElementById('resonance-msg');
-  const lastUpdate = document.getElementById('last-update');
   
   const resonanceQuotes = [
     "Confusion is raw material, not an accident.",
@@ -39,10 +47,4 @@ document.addEventListener('DOMContentLoaded', () => {
       resonanceMsg.style.opacity = 1;
     }, 500);
   }, 8000);
-
-  // Update timestamp when state changes (hooked into window for simplicity)
-  window.updateStateTimestamp = () => {
-    const now = new Date();
-    lastUpdate.textContent = `Last updated: ${now.toLocaleTimeString()}`;
-  };
 });

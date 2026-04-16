@@ -1,5 +1,5 @@
 import { execFile } from "node:child_process";
-import { readFile, readdir, writeFile } from "node:fs/promises";
+import { readFile, readdir, writeFile, unlink } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
@@ -52,4 +52,5 @@ let finalHtml = indexHtml
   .replace(/(<pre id="state"[^>]*>)(<\/pre>)/, `$1${stateHtml}$2`);
 
 await writeFile(indexPath, finalHtml);
+await unlink(ssrTempPath);
 console.log("Static page generated successfully.");
