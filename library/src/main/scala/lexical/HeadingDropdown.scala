@@ -4,10 +4,10 @@ import org.scalajs.dom
 import scala.scalajs.js
 
 class HeadingDropdown extends ToolbarDropdown:
-  override def name: String = "Heading"
+  override def name: String = "Format"
 
   override def options: Seq[ToolbarDropdownOption] = Seq(
-    ToolbarDropdownOption("Normal", "paragraph"),
+    ToolbarDropdownOption("Normal Text", "paragraph"),
     ToolbarDropdownOption("Heading 1", "h1"),
     ToolbarDropdownOption("Heading 2", "h2"),
     ToolbarDropdownOption("Heading 3", "h3")
