@@ -75,6 +75,7 @@ object LexicalLink extends js.Object:
   def LinkNode: js.Dynamic = js.native
   def TOGGLE_LINK_COMMAND: LexicalCommand[String | Null] = js.native
   def $isLinkNode(node: LexicalNode): Boolean = js.native
+  def $toggleLink(urlOrAttributes: String | js.Object | Null, attributes: js.Object | Null = null): Unit = js.native
 
 @JSImport("@lexical/markdown", JSImport.Namespace)
 @js.native

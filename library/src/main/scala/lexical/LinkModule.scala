@@ -16,16 +16,31 @@ class LinkModule extends EditorModule:
     editor.getSelectionWrapper().getNodes.exists(node => LexicalLink.$isLinkNode(node))
 
   override def execute(editor: LexicalEditor): Unit =
-    val currentUrl = editor.getEditorState().read(() => {
+    val selection = currentSelection(editor)
+    if (!editor.dispatchCommand(LinkCommands.OPEN_LINK_DIALOG_COMMAND, editor)) {
+      val currentUrl = currentLinkUrl(editor)
+      val url = dom.window.prompt("Enter URL:", currentUrl)
+      if (url != null) {
+        applyLink(editor, url, selection)
+      }
+    }
+
+  def applyLink(editor: LexicalEditor, url: String | Null, selection: BaseSelection | Null): Unit =
+    editor.update(() =>
+      if (selection != null) {
+        Lexical.$setSelection(selection.clone().asInstanceOf[RangeSelection | NodeSelection])
+      }
+      val normalizedUrl = Option(url).map(_.trim).filter(_.nonEmpty).orNull
+      LexicalLink.$toggleLink(normalizedUrl)
+    , js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
+
+  private def currentSelection(editor: LexicalEditor): RangeSelection | Null =
+    editor.read(() => Lexical.$getSelection())
+
+  private def currentLinkUrl(editor: LexicalEditor): String =
+    editor.getEditorState().read(() => {
       val nodes = editor.getSelectionWrapper().getNodes
       nodes.find(node => LexicalLink.$isLinkNode(node)).map { node =>
-         // LinkNode has getURL() in JS
-         node.asInstanceOf[js.Dynamic].getURL().asInstanceOf[String]
+        node.asInstanceOf[js.Dynamic].getURL().asInstanceOf[String]
       }.getOrElse("")
     }).asInstanceOf[String]
-
-    val url = dom.window.prompt("Enter URL:", currentUrl)
-    if (url != null) {
-      val finalUrl = if (url.isEmpty) null else url
-      editor.dispatchCommand(LexicalLink.TOGGLE_LINK_COMMAND, finalUrl)
-    }

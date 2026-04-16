@@ -18,6 +18,7 @@ trait BaseSelection extends js.Object:
   def isCollapsed(): Boolean = js.native
   def getStartKey(): NodeKey = js.native
   def getEndKey(): NodeKey = js.native
+  override def clone(): BaseSelection = js.native
 
 @js.native
 trait RangeSelection extends BaseSelection:

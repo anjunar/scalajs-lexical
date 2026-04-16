@@ -76,6 +76,41 @@ def main(): Unit =
   val editor = builder.build(editorContainer)
   
   LexicalList.registerList(editor)
+  val linkModule = new LinkModule()
+
+  editor.registerCommand(LinkCommands.OPEN_LINK_DIALOG_COMMAND, (editor: LexicalEditor, _: LexicalEditor) => {
+    val selection = editor.read(() => Lexical.$getSelection())
+    val currentUrl = editor.getEditorState().read(() => {
+      val nodes = editor.getSelectionWrapper().getNodes
+      nodes.find(node => LexicalLink.$isLinkNode(node)).map { node =>
+        node.asInstanceOf[js.Dynamic].getURL().asInstanceOf[String]
+      }.getOrElse("")
+    }).asInstanceOf[String]
+
+    editor.getDialogService.show("Insert Link", () => {
+      val content = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
+
+      val urlLabel = dom.document.createElement("label").asInstanceOf[dom.HTMLElement]
+      urlLabel.textContent = "URL"
+
+      val urlInput = dom.document.createElement("input").asInstanceOf[dom.HTMLInputElement]
+      urlInput.setAttribute("type", "url")
+      urlInput.value = currentUrl
+      urlInput.placeholder = "https://example.com"
+      urlInput.id = "link-url-input"
+      urlInput.style.width = "100%"
+
+      content.appendChild(urlLabel)
+      content.appendChild(urlInput)
+      content
+    }, (content) => {
+      val urlInput = content.querySelector("#link-url-input").asInstanceOf[dom.HTMLInputElement]
+      val url = urlInput.value.trim
+      linkModule.applyLink(editor, url, selection)
+    })
+
+    true
+  }, 1)
   
   editor.registerCommand(ImageNode.OPEN_IMAGE_DIALOG_COMMAND, (editor: LexicalEditor, _: LexicalEditor) => {
     editor.getDialogService.show("Insert Image", () => {
