@@ -1,8 +1,41 @@
 import org.scalajs.linker.interface.{ESVersion, ModuleKind}
 import org.scalajs.sbtplugin.ScalaJSPlugin
 
-ThisBuild / version := "0.1.0-SNAPSHOT"
+ThisBuild / version := "1.0.0"
+ThisBuild / organization := "com.anjunar"
+ThisBuild / organizationName := "Anjunar"
+ThisBuild / organizationHomepage := Some(url("https://github.com/anjunar"))
 ThisBuild / scalaVersion := "3.8.3"
+
+ThisBuild / homepage := Some(url("https://github.com/anjunar/scalajs-lexical"))
+ThisBuild / description := "Lexical editor wrapper for Scala.js."
+ThisBuild / licenses := Seq("MIT" -> url("https://opensource.org/licenses/MIT"))
+ThisBuild / scmInfo := Some(
+  ScmInfo(
+    url("https://github.com/anjunar/scalajs-lexical"),
+    "scm:git:https://github.com/anjunar/scalajs-lexical.git",
+    Some("scm:git:git@github.com:anjunar/scalajs-lexical.git")
+  )
+)
+ThisBuild / developers := List(
+  Developer(
+    id = "anjunar",
+    name = "Patrick Bittner",
+    email = "anjunar@gmx.de",
+    url = url("https://github.com/anjunar")
+  )
+)
+
+ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / pomIncludeRepository := { _ => false }
+ThisBuild / publishMavenStyle := true
+ThisBuild / publishTo := {
+  if (isSnapshot.value) {
+    Some("central-snapshots" at "https://central.sonatype.com/repository/maven-snapshots/")
+  } else {
+    localStaging.value
+  }
+}
 
 lazy val commonSettings = Seq(
   scalaJSLinkerConfig ~= (
@@ -17,8 +50,10 @@ lazy val commonSettings = Seq(
 lazy val library = (project in file("library"))
   .enablePlugins(ScalaJSPlugin)
   .settings(
-    name := "lexical-library",
-    commonSettings
+    name := "scalajs-lexical",
+    moduleName := "scalajs-lexical",
+    commonSettings,
+    publishMavenStyle := true
   )
 
 lazy val codemirror = (project in file("codemirror"))
@@ -26,16 +61,19 @@ lazy val codemirror = (project in file("codemirror"))
   .dependsOn(library)
   .settings(
     name := "lexical-codemirror",
-    commonSettings
+    moduleName := "lexical-codemirror",
+    commonSettings,
+    publishMavenStyle := true
   )
 
-lazy val application = (project in file("application"))
+lazy val application = Project(id = "scalajs-lexical-demo", base = file("application"))
   .enablePlugins(ScalaJSPlugin)
   .dependsOn(library, codemirror)
   .settings(
     name := "lexical-demo",
     commonSettings,
-    scalaJSUseMainModuleInitializer := true
+    scalaJSUseMainModuleInitializer := true,
+    publish / skip := true
   )
 
 lazy val root = (project in file("."))

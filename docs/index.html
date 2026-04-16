@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manifesto of Silence | Showcase</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="./assets/index-B10F_QTo.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-BQtDCaaA.css">
+</head>
+<body>
+  <div class="manifest-root">
+    <nav class="manifest-sidebar">
+      <div class="sidebar-header">
+        <span class="logo">M|S</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li class="active" data-mode="collect" title="Collect"><span class="material-icons">grain</span></li>
+        <li data-mode="clarify" title="Clarify"><span class="material-icons">filter_list</span></li>
+        <li data-mode="condense" title="Condense"><span class="material-icons">compress</span></li>
+        <li data-mode="decide" title="Decide"><span class="material-icons">done_all</span></li>
+        <li data-mode="archive" title="Archive"><span class="material-icons">inventory_2</span></li>
+      </ul>
+      </nav>
+
+      <main class="manifest-main">
+      <header class="manifest-header">
+        <div class="header-content">
+          <div class="breadcrumb">Architecture / Manifesto</div>
+          <h1>Manifesto of Silence</h1>
+          <p class="manifest-intro">It is not made of silence, but of a constant return to it.</p>
+        </div>
+      </header>
+
+      <div class="workspace-grid">
+        <section class="editor-section">
+          <div class="layer-label">Clarification & Condensation</div>
+          <div class="editor-shell">
+            <div id="toolbar" class="toolbar"></div>
+            <div class="editor-container">
+              <div id="editor" class="editor-input" contenteditable="true"></div>
+            </div>
+          </div>
+          <div class="editor-footer">
+            <span class="status-indicator">Resonance: Active</span>
+            <span class="version-tag">Draft v1.4.2</span>
+          </div>
+        </section>
+
+        <aside class="meta-section">
+          <div class="layer-label">Archive & Structure</div>
+          <div class="state-viewer">
+            <div class="state-header">
+              <span>Structural Resonance (JSON)</span>
+              <span class="state-timestamp" id="last-update">Last updated: Just now</span>
+            </div>
+            <pre id="state"></pre>
+          </div>
+
+          <div class="principles-box">
+            <h3>Architectural Principles</h3>
+            <ul id="principles-list">
+              <li>Good form leads without exhibiting itself.</li>
+              <li>Precise and revisable.</li>
+              <li>Strict at the thresholds, soft in the interior.</li>
+              <li>Void as workspace, not as luxury.</li>
+              <li>Truth emerges through simplification.</li>
+            </ul>
+          </div>
+
+          <div class="resonance-feedback" id="resonance-msg">
+            "Confusion is raw material, not an accident."
+          </div>
+        </aside>
+
+      </div>
+    </main>
+  </div>
+  
+</body>
+</html>

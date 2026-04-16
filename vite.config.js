@@ -10,7 +10,10 @@ export default defineConfig({
         emptyOutDir: true,
     },
     plugins: [
-        scalaJSPlugin(),
+        scalaJSPlugin({
+            cwd: ".",
+            projectID: "scalajs-lexical-demo",
+        }),
     ],
     resolve: {
         alias: {
