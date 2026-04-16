@@ -42,12 +42,9 @@ def main(): Unit =
       ListModules.NUMBERED,
       new LinkModule(),
       new ImageModule(),
-      new ParagraphModule(),
       new CodeMirrorModule(),
-      EditorModules.CLEAR,
       new MarkdownModule()
     )
-    .withModules(new MarkdownModule())
 
     .withFloatingToolbar(
       EditorModules.BOLD,
