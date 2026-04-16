@@ -79,12 +79,6 @@ object LexicalMarkdown extends js.Object:
   def registerMarkdownShortcuts(editor: LexicalEditor, transformers: js.Array[js.Any]): js.Function0[Unit] = js.native
   def TRANSFORMERS: js.Array[js.Any] = js.native
 
-@JSImport("@lexical/list", JSImport.Namespace)
-@js.native
-object LexicalList extends js.Object:
-  def ListNode: js.Dynamic = js.native
-  def ListItemNode: js.Dynamic = js.native
-
 @JSImport("@lexical/code", JSImport.Namespace)
 @js.native
 object LexicalCode extends js.Object:

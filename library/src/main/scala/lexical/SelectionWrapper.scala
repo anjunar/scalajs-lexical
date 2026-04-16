@@ -12,6 +12,7 @@ class SelectionWrapper(
   def isBold: Boolean = (format & 1) != 0
   def isItalic: Boolean = (format & 2) != 0
   def isUnderline: Boolean = (format & 4) != 0
+  def isStrikethrough: Boolean = (format & 8) != 0
   def isCode: Boolean = (format & 16) != 0
 
   def getSelectedText: String = selectedText

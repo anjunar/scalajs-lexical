@@ -33,6 +33,10 @@ def main(): Unit =
     .withToolbar(
       EditorModules.BOLD,
       EditorModules.ITALIC,
+      EditorModules.UNDERLINE,
+      EditorModules.STRIKETHROUGH,
+      ListModules.BULLET,
+      ListModules.NUMBERED,
       new LinkModule(),
       new ImageModule(),
       new ParagraphModule(),
@@ -40,9 +44,13 @@ def main(): Unit =
       EditorModules.CLEAR,
       new MarkdownModule()
     )
+    .withModules(new MarkdownModule())
+
     .withFloatingToolbar(
       EditorModules.BOLD,
       EditorModules.ITALIC,
+      EditorModules.UNDERLINE,
+      EditorModules.STRIKETHROUGH,
       new LinkModule()
     )
     .withModules(new MarkdownModule())
@@ -54,6 +62,7 @@ def main(): Unit =
     })
 
   val editor = builder.build(editorContainer)
+  LexicalList.registerList(editor)
   
   editor.registerCommand(ImageNode.OPEN_IMAGE_DIALOG_COMMAND, (editor: LexicalEditor, _: LexicalEditor) => {
     editor.getDialogService.show("Insert Image", () => {

@@ -162,6 +162,3 @@ header h1 {
     outline: none;
     box-shadow: 0 0 0 2px rgba(33, 103, 175, 0.2);
 }
-
-/* Import library CSS */
-@import url("../../library/src/main/resources/lexical/index.css");
