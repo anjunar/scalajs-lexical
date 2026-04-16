@@ -31,13 +31,7 @@ ThisBuild / versionScheme := Some("early-semver")
 ThisBuild / pomIncludeRepository := { _ => false }
 ThisBuild / publishMavenStyle := true
 ThisBuild / sonatypeCredentialHost := sonatypeCentralHost
-ThisBuild / publishTo := {
-  if (isSnapshot.value) {
-    Some("central-snapshots" at "https://central.sonatype.com/repository/maven-snapshots/")
-  } else {
-    localStaging.value
-  }
-}
+ThisBuild / publishTo := sonatypePublishToBundle.value
 
 lazy val commonSettings = Seq(
   scalaJSLinkerConfig ~= (

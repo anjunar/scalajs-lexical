@@ -7,10 +7,10 @@ A Scala.js wrapper for the [Lexical](https://lexical.dev/) editor, providing a t
 Add the following to your `build.sbt`:
 
 ```scala
-libraryDependencies += "com.anjunar" %%% "lexical-library" % "1.0.0"
-// Optional: CodeMirror node support
-libraryDependencies += "com.anjunar" %%% "lexical-codemirror" % "1.0.0"
+libraryDependencies += "com.anjunar" %%% "scalajs-lexical" % "1.0.0"
 ```
+
+// CodeMirror support is included in the main library under the lexical.codemirror package.
 
 ## Features
 
