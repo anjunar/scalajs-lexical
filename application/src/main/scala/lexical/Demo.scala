@@ -17,6 +17,8 @@ def main(): Unit =
       .withQuote("lexical-quote")
       .withTextBold("lexical-text-bold")
       .withTextItalic("lexical-text-italic")
+      .withTextUnderline("lexical-text-underline")
+      .withTextStrikethrough("lexical-text-strikethrough")
       .withCode("lexical-text-code")
       .build()
     )

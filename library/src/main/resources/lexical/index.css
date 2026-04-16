@@ -120,3 +120,11 @@
     bottom: -5px;
     right: -5px;
 }
+
+.lexical-text-underline {
+    text-decoration: underline;
+}
+
+.lexical-text-strikethrough {
+    text-decoration: line-through;
+}

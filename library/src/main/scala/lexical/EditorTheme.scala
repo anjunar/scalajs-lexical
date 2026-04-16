@@ -64,6 +64,16 @@ class EditorThemeBuilder:
     _theme.text = _textTheme
     this
 
+  def withTextUnderline(className: String): this.type =
+    _textTheme.underline = className
+    _theme.text = _textTheme
+    this
+
+  def withTextStrikethrough(className: String): this.type =
+    _textTheme.strikethrough = className
+    _theme.text = _textTheme
+    this
+
   def withCode(className: String): this.type =
     _theme.code = className
     this
