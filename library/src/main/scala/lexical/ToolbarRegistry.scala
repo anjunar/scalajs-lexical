@@ -11,18 +11,29 @@ case class ToolbarTab(
 
 case class ToolbarSection(
   name: String,
-  modules: List[EditorModule]
+  modules: List[ToolbarElement]
 )
 
-class ToolbarRegistry(modules: List[EditorModule]):
+class ToolbarRegistry(elements: List[ToolbarElement]):
   def getModel: ToolbarModel =
-    val grouped = modules.groupBy(_.metadata.tabName)
-    val tabs = grouped.map { case (tabName, tabModules) =>
-      val sections = tabModules.groupBy(_.metadata.sectionName)
-        .map { case (sectionName, sectionModules) =>
-          ToolbarSection(sectionName, sectionModules.sortBy(_.metadata.order))
-        }.toList.sortBy(_.name)
+    val groupedByTab = elements.groupBy {
+      case m: EditorModule => 
+        org.scalajs.dom.console.log(s"Grouping EditorModule: ${m.name} to ${m.metadata.tabName}")
+        m.metadata.tabName
+      case d: ToolbarDropdown => 
+        org.scalajs.dom.console.log(s"Grouping Dropdown: ${d.name} to Home")
+        "Home"
+    }
+
+    val toolbarTabs = groupedByTab.map { case (tabName, elementsInTab) =>
+      val sections = elementsInTab.groupBy {
+        case m: EditorModule => m.metadata.sectionName
+        case d: ToolbarDropdown => "Formatting"
+      }.map { case (sectionName, elementsInSection) =>
+        org.scalajs.dom.console.log(s"Creating section $sectionName with ${elementsInSection.size} elements")
+        ToolbarSection(sectionName, elementsInSection)
+      }.toList.sortBy(_.name)
       ToolbarTab(tabName, sections)
     }.toList.sortBy(_.name)
     
-    ToolbarModel(tabs)
+    ToolbarModel(toolbarTabs)

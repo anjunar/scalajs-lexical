@@ -8,7 +8,7 @@ class LexicalBuilder:
   private var _theme: EditorTheme = js.Dynamic.literal().asInstanceOf[EditorTheme]
   private var _nodes: js.Array[js.Any] = js.Array()
   private var _modules: Seq[EditorModule] = Seq.empty
-  private var _ribbonModules: Seq[EditorModule] = Seq.empty
+  private var _ribbonElements: Seq[ToolbarElement] = Seq.empty
   private var _floatingToolbarModules: Seq[EditorModule] = Seq.empty
   private var _toolbarElements: js.Array[ToolbarElement] = js.Array()
   private var _editable: Boolean = true
@@ -36,6 +36,14 @@ class LexicalBuilder:
     _placeholder = text
     this
 
+  private def extractToolbarElements(elements: js.Array[ToolbarElement]): Seq[ToolbarElement] =
+    def extract(el: ToolbarElement): Seq[ToolbarElement] = el match
+      case m: EditorModule => Seq(m)
+      case d: ToolbarDropdown => Seq(d)
+      case ToolbarGroup(children @ _*) => children.flatMap(extract)
+      case _ => Seq.empty
+    elements.flatMap(extract).toSeq
+
   private def extractModulesFromElements(elements: js.Array[ToolbarElement]): Seq[EditorModule] =
     def extract(el: ToolbarElement): Seq[EditorModule] = el match
       case m: EditorModule => Seq(m)
@@ -44,12 +52,13 @@ class LexicalBuilder:
     elements.flatMap(extract).toSeq
 
   def withToolbar(elements: ToolbarElement*): this.type =
-    _ribbonModules = extractModulesFromElements(js.Array(elements*))
-    _modules = _modules ++ _ribbonModules
+    _ribbonElements = extractToolbarElements(js.Array(elements*))
+    _modules = _modules ++ _ribbonElements.collect { case m: EditorModule => m }
     this
 
+
   def withFloatingToolbar(elements: ToolbarElement*): this.type =
-    _floatingToolbarModules = extractModulesFromElements(js.Array(elements*))
+    _floatingToolbarModules = extractModulesFromElements(js.Array(elements*)).collect { case m: EditorModule => m }
     _modules = _modules ++ _floatingToolbarModules
     this
 
@@ -133,8 +142,8 @@ class LexicalBuilder:
     _modules.distinct.foreach(_.register(editor))
 
     // Ribbon Toolbar
-    if (_ribbonModules.nonEmpty) {
-       // logic will use _ribbonModules
+    if (_ribbonElements.nonEmpty) {
+       // logic will use _ribbonElements
     }
 
     // Floating Toolbar
@@ -159,5 +168,5 @@ class LexicalBuilder:
     editor
 
   def getModules: js.Array[EditorModule] = js.Array(_modules*)
-  def getRibbonModules: Seq[EditorModule] = _ribbonModules
+  def getRibbonModules: Seq[ToolbarElement] = _ribbonElements
   def getToolbarElements: js.Array[ToolbarElement] = _toolbarElements

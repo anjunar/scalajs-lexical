@@ -33,6 +33,7 @@ def main(): Unit =
       js.constructorOf[ImageNode]
     ))
     .withToolbar(
+      new HeadingDropdown(),
       EditorModules.BOLD,
       EditorModules.ITALIC,
       EditorModules.UNDERLINE,

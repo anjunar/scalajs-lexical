@@ -90,6 +90,7 @@ object LexicalRichText extends js.Object:
   def registerRichText(editor: LexicalEditor): js.Function0[Unit] = js.native
   def HeadingNode: js.Dynamic = js.native
   def QuoteNode: js.Dynamic = js.native
+  def FORMAT_HEADING_COMMAND: LexicalCommand[String] = js.native
 
 @JSImport("@lexical/history", JSImport.Namespace)
 @js.native

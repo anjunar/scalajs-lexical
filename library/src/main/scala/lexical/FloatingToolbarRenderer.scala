@@ -11,27 +11,30 @@ class FloatingToolbarRenderer extends ToolbarRenderer:
     model.tabs.foreach { tab =>
       tab.sections.foreach { section =>
         section.modules.foreach { mod =>
-          val btn = document.createElement("button").asInstanceOf[org.scalajs.dom.HTMLButtonElement]
-          btn.className = "lexical-floating-button"
-          mod.iconName.foreach { icon =>
-            val iconSpan = document.createElement("span").asInstanceOf[HTMLElement]
-            iconSpan.className = "material-icons"
-            iconSpan.textContent = icon
-            btn.appendChild(iconSpan)
-          }
-          btn.title = mod.name
-          btn.onclick = (_: org.scalajs.dom.MouseEvent) => mod.execute(editor)
-          
-          val updateButton = () => {
-            editor.read(() => {
-              btn.classList.toggle("active", mod.isActive(editor))
-              btn.disabled = !mod.canActivate(editor)
-            })
-          }
-          editor.registerUpdateListener(_ => updateButton())
-          updateButton()
-          
-          container.appendChild(btn)
+          mod match
+            case em: EditorModule =>
+              val btn = document.createElement("button").asInstanceOf[org.scalajs.dom.HTMLButtonElement]
+              btn.className = "lexical-floating-button"
+              em.iconName.foreach { icon =>
+                val iconSpan = document.createElement("span").asInstanceOf[HTMLElement]
+                iconSpan.className = "material-icons"
+                iconSpan.textContent = icon
+                btn.appendChild(iconSpan)
+              }
+              btn.title = em.name
+              btn.onclick = (_: org.scalajs.dom.MouseEvent) => em.execute(editor)
+              
+              val updateButton = () => {
+                editor.read(() => {
+                  btn.classList.toggle("active", em.isActive(editor))
+                  btn.disabled = !em.canActivate(editor)
+                })
+              }
+              editor.registerUpdateListener(_ => updateButton())
+              updateButton()
+              
+              container.appendChild(btn)
+            case _ => // Ignore dropdowns in floating toolbar for now
         }
       }
     }

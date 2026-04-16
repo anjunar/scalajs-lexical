@@ -1,5 +1,6 @@
 package lexical
 
+import org.scalajs.dom
 import org.scalajs.dom.{HTMLElement, document}
 
 trait ToolbarRenderer:
@@ -21,31 +22,64 @@ class RibbonRenderer extends ToolbarRenderer:
         sectionEl.className = "lexical-ribbon-section"
         
         val buttonsContainer = document.createElement("div").asInstanceOf[HTMLElement]
+        buttonsContainer.className = "lexical-ribbon-buttons-container"
         buttonsContainer.style.display = "flex"
-        buttonsContainer.style.setProperty("gap", "5px")
+        buttonsContainer.style.setProperty("gap", "2px")
         
-        section.modules.foreach { mod =>
-          val btn = document.createElement("button").asInstanceOf[org.scalajs.dom.HTMLButtonElement]
-          btn.className = "lexical-ribbon-button"
-          mod.iconName.foreach { icon =>
-            val iconSpan = document.createElement("span").asInstanceOf[HTMLElement]
-            iconSpan.className = "material-icons"
-            iconSpan.textContent = icon
-            btn.appendChild(iconSpan)
-          }
-          btn.title = mod.name
-          btn.onclick = (_: org.scalajs.dom.MouseEvent) => mod.execute(editor)
+        section.modules.foreach { 
+          case dropdown: ToolbarDropdown =>
+            val wrapper = document.createElement("div").asInstanceOf[HTMLElement]
+            wrapper.className = "lexical-dropdown-wrapper"
+            
+            val trigger = document.createElement("button").asInstanceOf[dom.HTMLButtonElement]
+            trigger.className = "lexical-ribbon-button"
+            trigger.textContent = dropdown.name
+            val menu = document.createElement("div").asInstanceOf[HTMLElement]
+            menu.className = "lexical-dropdown-menu"
+            menu.style.display = "none"
+            
+            dropdown.options.foreach { opt =>
+              val item = document.createElement("div").asInstanceOf[HTMLElement]
+              item.className = "lexical-dropdown-item"
+              item.textContent = opt.label
+              item.onclick = (_: dom.MouseEvent) => {
+                dropdown.onSelect(editor, opt.value)
+                menu.style.display = "none"
+              }
+              menu.appendChild(item)
+            }
+            
+            trigger.onclick = (_: dom.MouseEvent) => {
+              menu.style.display = if (menu.style.display == "none") "block" else "none"
+            }
+            
+            wrapper.appendChild(trigger)
+            wrapper.appendChild(menu)
+            buttonsContainer.appendChild(wrapper)
           
-          val updateButton = () => {
-            editor.read(() => {
-              btn.classList.toggle("active", mod.isActive(editor))
-              btn.disabled = !mod.canActivate(editor)
-            })
-          }
-          editor.registerUpdateListener(_ => updateButton())
-          updateButton()
-          
-          buttonsContainer.appendChild(btn)
+          case em: EditorModule =>
+            val btn = document.createElement("button").asInstanceOf[org.scalajs.dom.HTMLButtonElement]
+            btn.className = "lexical-ribbon-button"
+            em.iconName.foreach { icon =>
+              val iconSpan = document.createElement("span").asInstanceOf[HTMLElement]
+              iconSpan.className = "material-icons"
+              iconSpan.textContent = icon
+              btn.appendChild(iconSpan)
+            }
+            btn.title = em.name
+            btn.onclick = (_: org.scalajs.dom.MouseEvent) => em.execute(editor)
+            
+            val updateButton = () => {
+              editor.read(() => {
+                btn.classList.toggle("active", em.isActive(editor))
+                btn.disabled = !em.canActivate(editor)
+              })
+            }
+            editor.registerUpdateListener(_ => updateButton())
+            updateButton()
+            
+            buttonsContainer.appendChild(btn)
+          case _ =>
         }
         sectionEl.appendChild(buttonsContainer)
         

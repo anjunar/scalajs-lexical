@@ -30,6 +30,14 @@
     border-right: 1px solid #ccc;
 }
 
+.lexical-ribbon-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 32px;
+}
+
 .lexical-ribbon-section-label {
     font-size: 10px;
     color: #666;
@@ -155,4 +163,58 @@
 .lexical-floating-button.active {
     background: #555;
     color: #add8e6;
+}
+
+.lexical-dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.lexical-ribbon-button {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: 5px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    color: #333;
+    font-size: 14px;
+    transition: all 0.2s;
+    height: 100%;
+}
+
+.lexical-ribbon-button:hover {
+    background: #e0e0e0;
+    border: 1px solid #ccc;
+}
+
+.lexical-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #dcdcdc;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 3000;
+    min-width: 140px;
+    margin-top: 2px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.lexical-dropdown-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #333;
+    transition: background 0.1s;
+}
+
+.lexical-dropdown-item:hover {
+    background: #f0f0f0;
 }
