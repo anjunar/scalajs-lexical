@@ -5,6 +5,7 @@ import scala.scalajs.js
 
 class HeadingDropdown extends ToolbarDropdown:
   override def name: String = "Heading"
+
   override def options: Seq[ToolbarDropdownOption] = Seq(
     ToolbarDropdownOption("Normal", "paragraph"),
     ToolbarDropdownOption("Heading 1", "h1"),
@@ -13,17 +14,34 @@ class HeadingDropdown extends ToolbarDropdown:
   )
 
   override def getSelectedValue(editor: LexicalEditor): String =
-    val selection = editor.getSelectionWrapper()
-    if (selection.isRangeSelection && selection.nodes.nonEmpty) {
-      val firstNode = selection.nodes(0)
-      // Basic check for block type
-      if (firstNode.getType() == "heading") "h1" // Simplified logic, needs real check
-      else "paragraph"
-    } else "paragraph"
+    editor.read(() =>
+      val selection = Lexical.$getSelection()
+      if (selection == null || !Lexical.$isRangeSelection(selection)) then
+        "paragraph"
+      else
+        val rangeSelection = selection.asInstanceOf[js.Dynamic]
+        val anchorNode = rangeSelection.anchor.getNode().asInstanceOf[js.Dynamic]
+        val block = anchorNode.getTopLevelElementOrThrow().asInstanceOf[js.Dynamic]
+
+        if (block != null && block.getType().asInstanceOf[String] == "heading") then
+          block.getTag().asInstanceOf[String]
+        else
+          "paragraph"
+    )
 
   override def onSelect(editor: LexicalEditor, value: String): Unit =
-    if (value == "paragraph") {
-      editor.dispatchCommand(LexicalRichText.FORMAT_HEADING_COMMAND, "paragraph")
-    } else {
-      editor.dispatchCommand(LexicalRichText.FORMAT_HEADING_COMMAND, value)
-    }
+    editor.update(() =>
+      val selection = Lexical.$getSelection()
+      if (selection != null && Lexical.$isRangeSelection(selection)) then
+        if (value == "paragraph") then
+          LexicalSelection.$setBlocksType(
+            selection.asInstanceOf[RangeSelection],
+            () => Lexical.$createParagraphNode()
+          )
+        else
+          LexicalSelection.$setBlocksType(
+            selection.asInstanceOf[RangeSelection],
+            () => LexicalRichText.$createHeadingNode(value)
+          )
+    , js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
+    editor.focus(() => (), js.Dynamic.literal().asInstanceOf[EditorFocusOptions])

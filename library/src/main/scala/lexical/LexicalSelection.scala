@@ -1,7 +1,7 @@
 package lexical
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSGlobal
+import scala.scalajs.js.annotation.{JSGlobal, JSImport}
 import org.scalajs.dom as dom
 
 @js.native
@@ -9,6 +9,7 @@ trait Point extends js.Object:
   def getKey(): NodeKey = js.native
   def getOffset(): Int = js.native
   def getType(): String = js.native
+  def getNode(): LexicalNode = js.native
 
 @js.native
 trait BaseSelection extends js.Object:
@@ -40,7 +41,7 @@ trait NodeSelection extends BaseSelection:
   def add(key: NodeKey): Unit = js.native
 
 @js.native
-@JSGlobal("LexicalSelection")
+@JSImport("@lexical/selection", JSImport.Namespace)
 object LexicalSelection extends js.Object:
   def $createRangeSelection(
     anchorKey: NodeKey,
@@ -48,6 +49,8 @@ object LexicalSelection extends js.Object:
     focusKey: NodeKey,
     focusOffset: Int
   ): RangeSelection = js.native
+
+  def $setBlocksType(selection: RangeSelection, createNode: js.Function0[ElementNode]): Unit = js.native
 
   def $createPoint(key: NodeKey, offset: Int, `type`: String): Point = js.native
 

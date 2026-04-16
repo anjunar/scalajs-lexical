@@ -39,7 +39,9 @@ object Lexical extends js.Object:
   def $isElementNode(node: LexicalNode): Boolean = js.native
   def $isDecoratorNode(node: LexicalNode): Boolean = js.native
   def $isLineBreakNode(node: LexicalNode): Boolean = js.native
-  def $isTabNode(node: LexicalNode): Boolean = js.native
+  def $isRangeSelection(node: Any): Boolean = js.native
+  def $isRootOrShadowRoot(node: LexicalNode): Boolean = js.native
+  def $findMatchingParent(node: LexicalNode, callback: js.Function1[LexicalNode, Boolean]): LexicalNode | Null = js.native
   def $getNodeByKey(key: NodeKey): LexicalNode | Null = js.native
   def KEY_ENTER_COMMAND: LexicalCommand[Unit] = js.native
   def FORMAT_TEXT_COMMAND: LexicalCommand[String] = js.native
@@ -91,6 +93,7 @@ object LexicalRichText extends js.Object:
   def HeadingNode: js.Dynamic = js.native
   def QuoteNode: js.Dynamic = js.native
   def FORMAT_HEADING_COMMAND: LexicalCommand[String] = js.native
+  def $createHeadingNode(tag: String): ElementNode = js.native
 
 @JSImport("@lexical/history", JSImport.Namespace)
 @js.native

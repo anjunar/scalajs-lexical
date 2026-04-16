@@ -65,6 +65,7 @@ def main(): Unit =
     })
 
   val editor = builder.build(editorContainer)
+  js.Dynamic.global.window.editor = editor
   LexicalList.registerList(editor)
   
   editor.registerCommand(ImageNode.OPEN_IMAGE_DIALOG_COMMAND, (editor: LexicalEditor, _: LexicalEditor) => {
