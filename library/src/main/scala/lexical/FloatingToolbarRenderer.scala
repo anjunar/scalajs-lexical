@@ -23,16 +23,9 @@ class FloatingToolbarRenderer extends ToolbarRenderer:
               }
               btn.title = em.name
               btn.onclick = (_: org.scalajs.dom.MouseEvent) => em.execute(editor)
-              
-              val updateButton = () => {
-                editor.read(() => {
-                  btn.classList.toggle("active", em.isActive(editor))
-                  btn.disabled = !em.canActivate(editor)
-                })
-              }
-              editor.registerUpdateListener(_ => updateButton())
-              updateButton()
-              
+
+              ToolbarButtonState.bind(btn, editor, em)
+
               container.appendChild(btn)
             case _ => // Ignore dropdowns in floating toolbar for now
         }

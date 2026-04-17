@@ -7,6 +7,25 @@ import org.scalajs.dom.{HTMLElement, document}
 trait ToolbarRenderer:
   def render(model: ToolbarModel, editor: LexicalEditor): HTMLElement
 
+private object ToolbarButtonState:
+  def bind(button: dom.HTMLButtonElement, editor: LexicalEditor, module: EditorModule): Unit =
+    def update(): Unit =
+      editor.read(() =>
+        button.classList.toggle("active", module.isActive(editor))
+        button.disabled = !module.canActivate(editor)
+      )
+
+    editor.registerUpdateListener(_ => update())
+    editor.registerCommand(
+      Lexical.SELECTION_CHANGE_COMMAND,
+      (_: Unit, _: LexicalEditor) => {
+        update()
+        false
+      },
+      COMMAND_PRIORITY.LOW
+    )
+    update()
+
 class RibbonRenderer extends ToolbarRenderer:
   def render(model: ToolbarModel, editor: LexicalEditor): HTMLElement =
     val container = document.createElement("div").asInstanceOf[HTMLElement]
@@ -98,15 +117,7 @@ class RibbonRenderer extends ToolbarRenderer:
             }
             btn.title = em.name
             btn.onclick = (_: org.scalajs.dom.MouseEvent) => em.execute(editor)
-            
-            val updateButton = () => {
-              editor.read(() => {
-                btn.classList.toggle("active", em.isActive(editor))
-                btn.disabled = !em.canActivate(editor)
-              })
-            }
-            editor.registerUpdateListener(_ => updateButton())
-            updateButton()
+            ToolbarButtonState.bind(btn, editor, em)
             
             buttonsContainer.appendChild(btn)
           case _ =>
