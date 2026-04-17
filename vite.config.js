@@ -14,10 +14,5 @@ export default defineConfig({
             cwd: ".",
             projectID: "scalajs-lexical-demo",
         }),
-    ],
-    resolve: {
-        alias: {
-            "@lexical-css": resolve(__dirname, "./library/src/main/resources/lexical/index.css")
-        }
-    }
+    ]
 });

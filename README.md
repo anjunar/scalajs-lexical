@@ -33,6 +33,12 @@ Add the library to your Scala.js project:
 libraryDependencies += "com.anjunar" %%% "scalajs-lexical" % "1.0.6"
 ```
 
+Install the NPM companion package next to it:
+
+```bash
+npm install @anjunar/scalajs-lexical
+```
+
 The current build uses:
 
 - Scala `3.8.3`
@@ -43,9 +49,11 @@ The current build uses:
 For a Vite-based app, import the generated Scala.js entrypoint and the library CSS:
 
 ```javascript
-import '@lexical-css'
+import '@anjunar/scalajs-lexical/index.css'
 import 'scalajs:main.js'
 ```
+
+The NPM package intentionally carries the Lexical and CodeMirror JavaScript dependencies used by the Scala.js facades, so application builds do not have to duplicate every `@lexical/*` and `@codemirror/*` dependency manually.
 
 ## Minimal Editor
 
