@@ -28,13 +28,13 @@ class LinkModule extends EditorModule:
   def applyLink(editor: LexicalEditor, url: String | Null, selection: BaseSelection | Null): Unit =
     editor.update(() =>
       if (selection != null) {
-        Lexical.$setSelection(selection.clone().asInstanceOf[RangeSelection | NodeSelection])
+        Lexical.$setSelection(selection.clone().asInstanceOf[BaseSelection])
       }
       val normalizedUrl = Option(url).map(_.trim).filter(_.nonEmpty).orNull
       LexicalLink.$toggleLink(normalizedUrl)
     , js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
 
-  private def currentSelection(editor: LexicalEditor): RangeSelection | Null =
+  private def currentSelection(editor: LexicalEditor): BaseSelection | Null =
     editor.read(() => Lexical.$getSelection())
 
   private def currentLinkUrl(editor: LexicalEditor): String =

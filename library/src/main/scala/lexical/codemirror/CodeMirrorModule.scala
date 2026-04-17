@@ -15,7 +15,7 @@ class CodeMirrorModule extends EditorModule:
 
   private val languages = Seq(
     "javascript", "typescript", "html", "css", "python", "java", "cpp", "csharp",
-    "php", "ruby", "rust", "go", "scala", "kotlin", "swift", "markdown",
+    "php", "ruby", "rust", "scala", "kotlin", "swift", "markdown",
     "json", "xml", "yaml", "sql", "shell", "lua", "haskell", "objective-c",
     "perl", "r", "dart", "clojure", "erlang"
   )

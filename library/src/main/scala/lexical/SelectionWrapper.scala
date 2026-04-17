@@ -27,10 +27,7 @@ object SelectionWrapper:
         new SelectionWrapper(false, true, 0, js.Array(), "")
       } else {
         val baseSelection = selection.asInstanceOf[BaseSelection]
-        
-        // Check if it's a RangeSelection by checking for anchor/focus
-        val selectionDyn = selection.asInstanceOf[js.Dynamic]
-        val isRange = !js.isUndefined(selectionDyn.anchor) && !js.isUndefined(selectionDyn.focus)
+        val isRange = Lexical.$isRangeSelection(selection)
         
         val nodes = baseSelection.getNodes()
         val isCollapsed = baseSelection.isCollapsed()

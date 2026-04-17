@@ -13,4 +13,4 @@ object LexicalList extends js.Object:
   def REMOVE_LIST_COMMAND: LexicalCommand[Unit] = js.native
   def $createListNode(listType: String): ElementNode = js.native
   def $createListItemNode(): ElementNode = js.native
-  def registerList(editor: LexicalEditor): js.Function0[Unit] = js.native
+  def registerList(editor: LexicalEditor, options: js.UndefOr[js.Object] = js.undefined): js.Function0[Unit] = js.native

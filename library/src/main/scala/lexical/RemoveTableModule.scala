@@ -3,9 +3,11 @@ package lexical
 import org.scalajs.dom
 import scala.scalajs.js
 
+private val REMOVE_TABLE_COMMAND: LexicalCommand[Unit] = Lexical.createCommand[Unit]("REMOVE_TABLE_COMMAND")
+
 class RemoveTableModule extends CommandModule[Unit](
   "Remove Table",
-  Lexical.DELETE_COMMAND, // Standard delete command
+  REMOVE_TABLE_COMMAND,
   (),
   Some("delete"),
   metadata = new ToolbarMetadata {

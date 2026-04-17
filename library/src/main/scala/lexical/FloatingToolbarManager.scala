@@ -34,9 +34,7 @@ class FloatingToolbarManager(editor: LexicalEditor, modules: Seq[EditorModule]):
     dom.window.setTimeout(() => {
       editor.read(() => {
         val selection = Lexical.$getSelection()
-        val shouldShow = selection match
-          case s: RangeSelection if !s.isCollapsed() => true
-          case _ => false
+        val shouldShow = selection != null && Lexical.$isRangeSelection(selection) && !selection.isCollapsed()
 
         if (shouldShow) {
           val domSelection = dom.window.getSelection()

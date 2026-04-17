@@ -331,6 +331,7 @@ body {
 .lexical-text-bold { font-weight: 700; }
 .lexical-text-italic { font-style: italic; }
 .lexical-text-underline { text-decoration: underline; }
+.lexical-text-strikethrough { text-decoration: line-through; }
 
 /* Side Meta Section */
 .meta-section {

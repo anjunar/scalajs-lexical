@@ -53,6 +53,7 @@ class LexicalBuilder:
 
   def withToolbar(elements: ToolbarElement*): this.type =
     _ribbonElements = extractToolbarElements(js.Array(elements*))
+    _toolbarElements = js.Array(_ribbonElements*)
     _modules = _modules ++ _ribbonElements.collect { case m: EditorModule => m }
     this
 
@@ -84,7 +85,7 @@ class LexicalBuilder:
       nodes = _nodes,
       editable = _editable,
       onError = (error: js.Error) => dom.console.error(error)
-    ).asInstanceOf[EditorConfig]
+    ).asInstanceOf[CreateEditorArgs]
 
     val editor = Lexical.createEditor(config)
     
@@ -125,7 +126,8 @@ class LexicalBuilder:
 
     // Standard Registrations
     LexicalRichText.registerRichText(editor)
-    LexicalHistory.registerHistory(editor, LexicalHistory.createEmptyHistoryState(), 300)
+    if !_modules.exists(_.isInstanceOf[HistoryModule]) then
+      LexicalHistory.registerHistory(editor, LexicalHistory.createEmptyHistoryState(), 300)
     if hasTableSupportNodes then
       LexicalTable.registerTablePlugin(editor)
 

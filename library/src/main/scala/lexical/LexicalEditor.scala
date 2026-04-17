@@ -46,13 +46,13 @@ trait EditorThemeClasses extends js.Object:
   var indent: EditorThemeClassName
 
 trait EditorUpdateOptions extends js.Object:
-  var onUpdate: js.Function0[Unit]
-  var skipTransforms: Boolean
-  var tag: UpdateTag | js.Array[UpdateTag]
-  var discrete: Boolean
+  var onUpdate: js.UndefOr[js.Function0[Unit]]
+  var skipTransforms: js.UndefOr[Boolean]
+  var tag: js.UndefOr[UpdateTag | js.Array[UpdateTag]]
+  var discrete: js.UndefOr[Boolean]
 
 trait EditorFocusOptions extends js.Object:
-  var defaultSelection: String
+  var defaultSelection: js.UndefOr["rootStart" | "rootEnd"]
 
 @js.native
 trait LexicalEditor extends js.Object:
@@ -63,7 +63,7 @@ trait LexicalEditor extends js.Object:
   def registerTextContentListener(listener: js.Function1[String, Unit]): js.Function0[Unit] = js.native
   def registerRootListener(listener: js.Function2[dom.HTMLElement | Null, dom.HTMLElement | Null, Unit]): js.Function0[Unit] = js.native
   def registerCommand[P](command: LexicalCommand[P], listener: js.Function2[P, LexicalEditor, Boolean], priority: Int): js.Function0[Unit] = js.native
-  def registerMutationListener(klass: js.Dynamic, listener: js.Function2[js.Dynamic, js.Dynamic, Unit], options: js.Object): js.Function0[Unit] = js.native
+  def registerMutationListener(klass: js.Dynamic, listener: js.Function2[js.Dynamic, js.Dynamic, Unit], options: js.UndefOr[js.Object] = js.undefined): js.Function0[Unit] = js.native
   def registerNodeTransform[T <: LexicalNode](klass: js.Dynamic, listener: js.Function1[T, Unit]): js.Function0[Unit] = js.native
   def hasNode(node: js.Dynamic): Boolean = js.native
   def dispatchCommand[P](command: LexicalCommand[P], payload: P): Boolean = js.native

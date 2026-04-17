@@ -25,31 +25,31 @@ trait RangeSelection extends BaseSelection:
   def anchor: Point = js.native
   def focus: Point = js.native
   def format: Int = js.native
+  def style: String = js.native
   def isBackward(): Boolean = js.native
   def isFocused(): Boolean = js.native
-  def getNativeText(): String = js.native // Keeping it for compatibility if needed, but adding the correct one
   def getTextContent(): String = js.native
-  def apply(): Unit = js.native
-  def detach(): Unit = js.native
-  def insertNodes(nodes: js.Array[LexicalNode]): Boolean = js.native
-  def format(formatType: String): Unit = js.native
+  def insertText(text: String): Unit = js.native
+  def insertRawText(text: String): Unit = js.native
+  def insertNodes(nodes: js.Array[LexicalNode]): Unit = js.native
+  def setFormat(format: Int): Unit = js.native
+  def setStyle(style: String): Unit = js.native
+  def hasFormat(formatType: String): Boolean = js.native
   def forEach(callback: js.Function2[LexicalNode, Int, Unit]): Unit = js.native
-  override def toString(): String = js.native
 
 @js.native
 trait NodeSelection extends BaseSelection:
   override def getNodes(): js.Array[LexicalNode] = js.native
   def add(key: NodeKey): Unit = js.native
+  def delete(key: NodeKey): Unit = js.native
+  def clear(): Unit = js.native
+  def has(key: NodeKey): Boolean = js.native
+  def deleteNodes(): Unit = js.native
 
 @js.native
 @JSImport("@lexical/selection", JSImport.Namespace)
 object LexicalSelection extends js.Object:
-  def $createRangeSelection(
-    anchorKey: NodeKey,
-    anchorOffset: Int,
-    focusKey: NodeKey,
-    focusOffset: Int
-  ): RangeSelection = js.native
+  def $createRangeSelection(): RangeSelection = js.native
 
   def $setBlocksType(selection: RangeSelection, createNode: js.Function0[ElementNode]): Unit = js.native
 

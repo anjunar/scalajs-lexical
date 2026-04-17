@@ -12,7 +12,7 @@ trait LexicalCommand[P] extends js.Object
 @JSImport("lexical", JSImport.Namespace)
 @js.native
 object Lexical extends js.Object:
-  def createEditor(config: EditorConfig): LexicalEditor = js.native
+  def createEditor(config: CreateEditorArgs): LexicalEditor = js.native
   def TextNode: TextNodeStatic = js.native
   def ParagraphNode: ParagraphNodeStatic = js.native
   def RootNode: RootNodeStatic = js.native
@@ -24,7 +24,7 @@ object Lexical extends js.Object:
   def $createParagraphNode(): ParagraphNode = js.native
   def $createLineBreakNode(): LineBreakNode = js.native
   def $createTabNode(): TabNode = js.native
-  def $getSelection(): RangeSelection | Null = js.native
+  def $getSelection(): BaseSelection | Null = js.native
   def $getTextContent(): String = js.native
   def $getRoot(): RootNode = js.native
   def $getEditor(): LexicalEditor = js.native
@@ -32,7 +32,7 @@ object Lexical extends js.Object:
   def getDOMSelection(target: dom.Window): dom.Selection | Null = js.native
   def $insertNodes(nodes: js.Array[LexicalNode]): Boolean = js.native
   def $createNodeSelection(): NodeSelection = js.native
-  def $setSelection(selection: RangeSelection | NodeSelection | Null): Unit = js.native
+  def $setSelection(selection: BaseSelection | Null): Unit = js.native
   def $isTextNode(node: LexicalNode): Boolean = js.native
   def $isParagraphNode(node: LexicalNode): Boolean = js.native
   def $isRootNode(node: LexicalNode): Boolean = js.native
@@ -73,7 +73,7 @@ object LexicalConstants:
 @js.native
 object LexicalLink extends js.Object:
   def LinkNode: js.Dynamic = js.native
-  def TOGGLE_LINK_COMMAND: LexicalCommand[String | Null] = js.native
+  def TOGGLE_LINK_COMMAND: LexicalCommand[String | js.Object | Null] = js.native
   def $isLinkNode(node: LexicalNode): Boolean = js.native
   def $toggleLink(urlOrAttributes: String | js.Object | Null, attributes: js.Object | Null = null): Unit = js.native
 
@@ -117,12 +117,16 @@ object LexicalUtils extends js.Object:
   def mergeRegister(unregisters: js.Array[js.Function0[Unit]]): js.Function0[Unit] = js.native
 
 @js.native
-trait EditorConfig extends js.Object:
-  var namespace: String
-  var theme: js.Object | Null
-  var nodes: js.Array[js.Any]
-  var onError: js.Function1[js.Error, Unit]
-  var editable: js.Any
+trait CreateEditorArgs extends js.Object:
+  var namespace: js.UndefOr[String]
+  var theme: js.UndefOr[js.Object]
+  var nodes: js.UndefOr[js.Array[js.Any]]
+  var onError: js.UndefOr[js.Function1[js.Error, Unit]]
+  var editable: js.UndefOr[Boolean]
+  var disableEvents: js.UndefOr[Boolean]
+  var editorState: js.UndefOr[js.Any]
+  var parentEditor: js.UndefOr[LexicalEditor]
+  var html: js.UndefOr[js.Object]
 
 object COMMAND_PRIORITY:
   val EDITOR = 0

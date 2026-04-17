@@ -38,6 +38,10 @@ class TableModule extends EditorModule:
       val rows = content.querySelector("#table-rows").asInstanceOf[dom.HTMLInputElement].value.toInt
       val cols = content.querySelector("#table-cols").asInstanceOf[dom.HTMLInputElement].value.toInt
       
-      val payload = js.Dynamic.literal(columns = cols.toString, rows = rows.toString, includeHeaders = false)
+      val payload = js.Dynamic.literal(
+        columns = cols.toString,
+        rows = rows.toString,
+        includeHeaders = js.Dynamic.literal(rows = false, columns = false)
+      )
       editor.dispatchCommand(LexicalTable.INSERT_TABLE_COMMAND, payload)
     })
