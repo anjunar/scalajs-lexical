@@ -1,6 +1,6 @@
 {
   "name": "@anjunar/scalajs-lexical",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "NPM companion package for scalajs-lexical: Lexical and CodeMirror runtime dependencies plus default CSS.",
   "type": "module",
   "license": "MIT",
