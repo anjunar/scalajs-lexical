@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manifesto of Silence | Showcase</title>
+  <title>Scala.js Lexical Wrapper | Showcase</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
   <div class="manifest-root">
     <nav class="manifest-sidebar">
       <div class="sidebar-header">
-        <span class="logo">M|S</span>
+        <span class="logo">S|L</span>
       </div>
       <ul class="sidebar-nav">
         <li class="active" data-mode="collect" title="Collect"><span class="material-icons">grain</span></li>
@@ -28,15 +28,20 @@
       <main class="manifest-main">
       <header class="manifest-header">
         <div class="header-content">
-          <div class="breadcrumb">Architecture / Manifesto</div>
-          <h1>Manifesto of Silence</h1>
-          <p class="manifest-intro">It is not made of silence, but of a constant return to it.</p>
+          <div class="breadcrumb">Scala.js wrapper around Lexical</div>
+          <h1>Lexical for Scala.js</h1>
+          <p class="manifest-intro">A public, type-safe Scala.js wrapper for Meta's Lexical rich-text editor.</p>
+          <div class="project-badges" aria-label="Project technologies">
+            <span>Scala.js</span>
+            <span>Lexical</span>
+            <span>Typed facade</span>
+          </div>
         </div>
       </header>
 
       <div class="workspace-grid">
         <section class="editor-section">
-          <div class="layer-label">Clarification & Condensation</div>
+          <div class="layer-label">Live Editor Wrapper Showcase</div>
           <div class="editor-shell">
             <div id="toolbar" class="toolbar"></div>
             <div class="editor-container">
@@ -50,28 +55,28 @@
         </section>
 
         <aside class="meta-section">
-          <div class="layer-label">Archive & Structure</div>
+          <div class="layer-label">Wrapper State & API Surface</div>
           <div class="state-viewer">
             <div class="state-header">
-              <span>Structural Resonance (JSON)</span>
+              <span>Lexical EditorState JSON</span>
               <span class="state-timestamp" id="last-update">Last updated: Just now</span>
             </div>
             <pre id="state"></pre>
           </div>
 
           <div class="principles-box">
-            <h3>Architectural Principles</h3>
+            <h3>Wrapper Goals</h3>
             <ul id="principles-list">
-              <li>Good form leads without exhibiting itself.</li>
-              <li>Precise and revisable.</li>
-              <li>Strict at the thresholds, soft in the interior.</li>
-              <li>Void as workspace, not as luxury.</li>
-              <li>Truth emerges through simplification.</li>
+              <li>Scala-first API over Lexical commands.</li>
+              <li>Typed facades close to upstream Lexical.</li>
+              <li>Composable toolbar modules.</li>
+              <li>Custom dialogs owned by application code.</li>
+              <li>Reusable Scala.js editor building blocks.</li>
             </ul>
           </div>
 
           <div class="resonance-feedback" id="resonance-msg">
-            "Confusion is raw material, not an accident."
+            "The editor below is real Lexical, driven from Scala.js."
           </div>
         </aside>
 

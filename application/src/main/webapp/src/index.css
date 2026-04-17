@@ -123,6 +123,26 @@ body {
   font-weight: 300;
 }
 
+.project-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.project-badges span {
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.65);
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  line-height: 1;
+  padding: 9px 12px;
+  text-transform: uppercase;
+}
+
 /* Workspace Grid */
 .workspace-grid {
   display: grid;
