@@ -1,5 +1,5 @@
-import './index.css'
 import '@anjunar/scalajs-lexical/index.css'
+import './index.css'
 import 'scalajs:main.js'
 
 // Update timestamp when state changes (hooked into window for simplicity)

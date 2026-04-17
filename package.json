@@ -9,11 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@anjunar/scalajs-lexical": "file:./npm/scalajs-lexical"
+    "@anjunar/scalajs-lexical": "file:./npm/scalajs-lexical",
+    "@anjunar/ui": "file:../anjunar-ui"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.0",
     "@scala-js/vite-plugin-scalajs": "^1.1.0",
     "happy-dom": "^20.9.0",
+    "tailwindcss": "^4.1.0",
     "vite": "8.0.8"
   }
 }
