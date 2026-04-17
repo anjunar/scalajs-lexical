@@ -14,7 +14,12 @@ Install it next to the Scala.js dependency:
 npm install @anjunar/scalajs-lexical
 ```
 
-Import the CSS from your Vite entrypoint:
+Import the shared Anjunar UI grammar once in your application stylesheet, then import the Lexical package CSS from your Vite entrypoint:
+
+```css
+@import "tailwindcss";
+@import "@anjunar/ui";
+```
 
 ```javascript
 import '@anjunar/scalajs-lexical/index.css'

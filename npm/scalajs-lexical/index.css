@@ -3,11 +3,11 @@
     flex-direction: column;
     width: 100%;
     box-sizing: border-box;
-    background: var(--aj-surface, #fbf6f0);
-    color: var(--aj-ink, #2f271f);
-    font-family: var(--font-sans, "Segoe UI", sans-serif);
-    border: 1px solid var(--aj-line, rgba(74, 54, 31, 0.12));
-    border-radius: var(--aj-radius-panel, 18px);
+    background: var(--aj-surface);
+    color: var(--aj-ink);
+    font-family: var(--font-sans);
+    border: 1px solid var(--aj-line);
+    border-radius: var(--aj-radius-panel);
     overflow: hidden;
 }
 
@@ -16,8 +16,8 @@
     flex-wrap: wrap;
     gap: 4px;
     padding: 8px 8px 0;
-    background: var(--aj-surface-muted, rgba(74, 54, 31, 0.06));
-    border-bottom: 1px solid var(--aj-line-soft, rgba(74, 54, 31, 0.07));
+    background: var(--aj-surface-muted);
+    border-bottom: 1px solid var(--aj-line-soft);
 }
 
 .lexical-ribbon-tab {
@@ -28,8 +28,8 @@
     cursor: pointer;
     border: 1px solid transparent;
     border-bottom: 0;
-    border-radius: var(--aj-radius-control, 10px) var(--aj-radius-control, 10px) 0 0;
-    color: var(--aj-ink-muted, #8e7d6f);
+    border-radius: var(--aj-radius-control) var(--aj-radius-control) 0 0;
+    color: var(--aj-ink-muted);
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -39,14 +39,14 @@
 }
 
 .lexical-ribbon-tab:hover {
-    color: var(--aj-ink, #2f271f);
-    background: var(--aj-surface-raised, rgba(248, 241, 232, 0.72));
+    color: var(--aj-ink);
+    background: var(--aj-surface-raised);
 }
 
 .lexical-ribbon-tab.active {
-    color: var(--aj-ink, #2f271f);
-    background: var(--aj-surface, #fbf6f0);
-    border-color: var(--aj-line, rgba(74, 54, 31, 0.12));
+    color: var(--aj-ink);
+    background: var(--aj-surface);
+    border-color: var(--aj-line);
 }
 
 .lexical-ribbon-content {
@@ -70,7 +70,7 @@
     align-items: center;
     gap: 6px;
     padding: 0 12px 0 0;
-    border-right: 1px solid var(--aj-line-soft, rgba(74, 54, 31, 0.07));
+    border-right: 1px solid var(--aj-line-soft);
     flex-shrink: 0;
 }
 
@@ -92,8 +92,8 @@
     width: 100%;
     margin-top: 2px;
     padding-top: 4px;
-    border-top: 1px solid var(--aj-line-soft, rgba(74, 54, 31, 0.07));
-    color: var(--aj-ink-muted, #8e7d6f);
+    border-top: 1px solid var(--aj-line-soft);
+    color: var(--aj-ink-muted);
     font-size: 10px;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -121,10 +121,10 @@
     min-width: 32px;
     height: 32px;
     padding: 0 8px;
-    border: 1px solid transparent;
-    border-radius: var(--aj-radius-control, 10px);
-    background: transparent;
-    color: var(--aj-ink-soft, #5d5046);
+    border: 1px solid var(--aj-control-border);
+    border-radius: var(--aj-control-radius);
+    background: var(--aj-control-bg);
+    color: var(--aj-control-ink);
     font: inherit;
     font-size: 14px;
     cursor: pointer;
@@ -133,16 +133,16 @@
 
 .lexical-ribbon-button:hover,
 .lexical-floating-button:hover {
-    background: var(--aj-accent-muted, rgba(135, 196, 64, 0.12));
-    border-color: var(--aj-line, rgba(74, 54, 31, 0.12));
-    color: var(--aj-ink, #2f271f);
+    background: var(--aj-control-bg-hover);
+    border-color: var(--aj-control-border-hover);
+    color: var(--aj-control-ink-hover);
 }
 
 .lexical-ribbon-button.active,
 .lexical-floating-button.active {
-    background: var(--aj-accent-muted, rgba(135, 196, 64, 0.12));
-    border-color: var(--aj-accent, #87c440);
-    color: var(--aj-accent-strong, #6ea72f);
+    background: var(--aj-control-bg-active);
+    border-color: var(--aj-control-border-active);
+    color: var(--aj-control-ink-active);
 }
 
 .lexical-ribbon-button:disabled,
@@ -163,25 +163,25 @@
     min-width: 160px;
     margin-top: 4px;
     padding: 6px;
-    border: 1px solid var(--aj-line, rgba(74, 54, 31, 0.12));
-    border-radius: var(--aj-radius-control, 10px);
-    background: var(--aj-surface-overlay, rgba(249, 244, 238, 0.88));
-    box-shadow: var(--aj-shadow-float, 0 18px 48px rgba(34, 24, 11, 0.22));
+    border: 1px solid var(--aj-floating-border);
+    border-radius: var(--aj-floating-radius);
+    background: var(--aj-floating-bg);
+    box-shadow: var(--aj-floating-shadow);
     overflow: hidden;
 }
 
 .lexical-dropdown-item {
     padding: 8px 10px;
-    border-radius: calc(var(--aj-radius-control, 10px) - 4px);
-    color: var(--aj-ink-soft, #5d5046);
+    border-radius: calc(var(--aj-radius-control) - 4px);
+    color: var(--aj-control-ink);
     cursor: pointer;
     font-size: 13px;
     transition: background-color 120ms ease, color 120ms ease;
 }
 
 .lexical-dropdown-item:hover {
-    background: var(--aj-accent-muted, rgba(135, 196, 64, 0.12));
-    color: var(--aj-ink, #2f271f);
+    background: var(--aj-control-bg-hover);
+    color: var(--aj-control-ink-hover);
 }
 
 .floating-toolbar,
@@ -193,10 +193,10 @@
 
 .floating-toolbar {
     padding: 4px;
-    border: 1px solid var(--aj-line, rgba(74, 54, 31, 0.12));
-    border-radius: var(--aj-radius-control, 10px);
-    background: var(--aj-surface-overlay, rgba(249, 244, 238, 0.88));
-    box-shadow: var(--aj-shadow-float, 0 18px 48px rgba(34, 24, 11, 0.22));
+    border: 1px solid var(--aj-floating-border);
+    border-radius: var(--aj-floating-radius);
+    background: var(--aj-floating-bg);
+    box-shadow: var(--aj-floating-shadow);
 }
 
 .image-node-container {
@@ -204,18 +204,18 @@
     position: relative;
     cursor: default;
     border: 2px solid transparent;
-    border-radius: var(--aj-radius-control, 10px);
+    border-radius: var(--aj-radius-control);
 }
 
 .image-node-container.focused {
-    border-color: var(--aj-accent, #87c440);
+    border-color: var(--aj-accent);
 }
 
 .image-resizer {
     position: absolute;
     width: 10px;
     height: 10px;
-    background: var(--aj-accent, #87c440);
+    background: var(--aj-accent);
     border-radius: 50%;
     cursor: nwse-resize;
     display: none;
@@ -234,7 +234,7 @@
 .lexical-editor-input table,
 .lexical-editor-input th,
 .lexical-editor-input td {
-    border: 1px solid var(--aj-line, rgba(74, 54, 31, 0.12));
+    border: 1px solid var(--aj-line);
 }
 
 .lexical-editor-input th,
@@ -245,5 +245,5 @@
 }
 
 .table-cell-selected {
-    background: var(--aj-accent-muted, rgba(135, 196, 64, 0.12));
+    background: var(--aj-accent-muted);
 }
