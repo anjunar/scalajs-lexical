@@ -7,13 +7,9 @@ import org.scalajs.dom.{HTMLElement, document}
 trait ToolbarRenderer:
   def render(model: ToolbarModel, editor: LexicalEditor): HTMLElement
 
-private object ToolbarButtonState:
-  def bind(button: dom.HTMLButtonElement, editor: LexicalEditor, module: EditorModule): Unit =
-    def update(): Unit =
-      editor.read(() =>
-        button.classList.toggle("active", module.isActive(editor))
-        button.disabled = !module.canActivate(editor)
-      )
+private object ToolbarRefresh:
+  def bind(editor: LexicalEditor)(refresh: => Unit): Unit =
+    def update(): Unit = refresh
 
     editor.registerUpdateListener(_ => update())
     editor.registerCommand(
@@ -25,6 +21,14 @@ private object ToolbarButtonState:
       COMMAND_PRIORITY.LOW
     )
     update()
+
+  def bind(button: dom.HTMLButtonElement, editor: LexicalEditor, module: EditorModule): Unit =
+    bind(editor) {
+      editor.read(() =>
+        button.classList.toggle("active", module.isActive(editor))
+        button.disabled = !module.canActivate(editor)
+      )
+    }
 
 class RibbonRenderer extends ToolbarRenderer:
   def render(model: ToolbarModel, editor: LexicalEditor): HTMLElement =
@@ -76,8 +80,7 @@ class RibbonRenderer extends ToolbarRenderer:
               trigger.textContent = s"${dropdown.name}: $selectedLabel"
               trigger.title = s"${dropdown.name} - $selectedLabel"
             }
-            updateTriggerLabel()
-            editor.registerUpdateListener(_ => updateTriggerLabel())
+            ToolbarRefresh.bind(editor)(updateTriggerLabel())
             
             val menu = document.createElement("div").asInstanceOf[HTMLElement]
             menu.className = "lexical-dropdown-menu"
@@ -117,7 +120,7 @@ class RibbonRenderer extends ToolbarRenderer:
             }
             btn.title = em.name
             btn.onclick = (_: org.scalajs.dom.MouseEvent) => em.execute(editor)
-            ToolbarButtonState.bind(btn, editor, em)
+            ToolbarRefresh.bind(btn, editor, em)
             
             buttonsContainer.appendChild(btn)
           case _ =>
