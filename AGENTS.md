@@ -44,7 +44,7 @@ Diese Datei ergaenzt die uebergeordnete Anleitung in `..\AGENTS.md`.
 ## Build und Checks
 
 - Scala.js-Kompilation der Bibliothek:
-  `sbtn-x86_64-pc-win32.exe library/compile`
+  `sbtn-x86_64-pc-win32.exe scalajs-lexical/compile`
 - Scala.js-Kompilation der Demo:
   `sbtn-x86_64-pc-win32.exe scalajs-lexical-demo/compile`
 - Alle Scala-Teilprojekte kompilieren:

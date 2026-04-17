@@ -391,7 +391,7 @@ library/src/main/scala/lexical
 Use the local sbt client:
 
 ```bash
-sbtn-x86_64-pc-win32.exe library/compile
+sbtn-x86_64-pc-win32.exe scalajs-lexical/compile
 sbtn-x86_64-pc-win32.exe scalajs-lexical-demo/compile
 sbtn-x86_64-pc-win32.exe test
 ```
@@ -427,7 +427,7 @@ Do not use it if:
 
 ## Publishing To Maven Central
 
-The reusable module is `library` and is published as:
+The reusable module has the sbt project ID `scalajs-lexical` and is published as:
 
 ```text
 com.anjunar::scalajs-lexical
@@ -438,7 +438,7 @@ The build is configured for Sonatype Central publishing with `sbt-pgp`.
 Typical release commands:
 
 ```bash
-sbtn-x86_64-pc-win32.exe "library/publishSigned"
+sbtn-x86_64-pc-win32.exe "scalajs-lexical/publishSigned"
 sbtn-x86_64-pc-win32.exe sonaUpload
 sbtn-x86_64-pc-win32.exe sonaRelease
 ```

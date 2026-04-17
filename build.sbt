@@ -43,7 +43,7 @@ lazy val commonSettings = Seq(
   libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % Test
 )
 
-lazy val library = (project in file("library"))
+lazy val library = Project(id = "scalajs-lexical", base = file("library"))
   .enablePlugins(ScalaJSPlugin)
   .settings(
     name := "scalajs-lexical",
@@ -62,7 +62,7 @@ lazy val application = Project(id = "scalajs-lexical-demo", base = file("applica
     publish / skip := true
   )
 
-lazy val root = (project in file("."))
+lazy val root = Project(id = "scalajs-lexical-root", base = file("."))
   .aggregate(library, application)
   .settings(
     publish / skip := true
