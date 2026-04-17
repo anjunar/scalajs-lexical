@@ -24,7 +24,7 @@ class FloatingToolbarRenderer extends ToolbarRenderer:
               btn.title = em.name
               btn.onclick = (_: org.scalajs.dom.MouseEvent) => em.execute(editor)
 
-              ToolbarRefresh.bind(btn, editor, em)
+              ToolbarRefresh.bindActiveState(btn, editor, em)
 
               container.appendChild(btn)
             case _ => // Ignore dropdowns in floating toolbar for now
