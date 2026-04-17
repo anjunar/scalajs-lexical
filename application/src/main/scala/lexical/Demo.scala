@@ -76,16 +76,10 @@ def main(): Unit =
   val editor = builder.build(editorContainer)
   
   LexicalList.registerList(editor)
-  val linkModule = new LinkModule()
 
-  editor.registerCommand(LinkCommands.OPEN_LINK_DIALOG_COMMAND, (editor: LexicalEditor, _: LexicalEditor) => {
-    val selection = editor.read(() => Lexical.$getSelection())
-    val currentUrl = editor.getEditorState().read(() => {
-      val nodes = editor.getSelectionWrapper().getNodes
-      nodes.find(node => LexicalLink.$isLinkNode(node)).map { node =>
-        node.asInstanceOf[js.Dynamic].getURL().asInstanceOf[String]
-      }.getOrElse("")
-    }).asInstanceOf[String]
+  editor.registerCommand(LinkCommands.OPEN_LINK_DIALOG_COMMAND, (payload: LinkCommands.LinkDialogPayload, editor: LexicalEditor) => {
+    val selectionSnapshot = payload.selection
+    val currentUrl = payload.currentUrl
 
     editor.getDialogService.show("Insert Link", () => {
       val content = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
@@ -105,8 +99,11 @@ def main(): Unit =
       content
     }, (content) => {
       val urlInput = content.querySelector("#link-url-input").asInstanceOf[dom.HTMLInputElement]
-      val url = urlInput.value.trim
-      linkModule.applyLink(editor, url, selection)
+      val enteredUrl = urlInput.value.trim
+      editor.dispatchCommand(LinkCommands.INSERT_LINK_COMMAND, new LinkCommands.LinkInsertPayload:
+        var url = enteredUrl
+        var selection = selectionSnapshot
+      )
     })
 
     true

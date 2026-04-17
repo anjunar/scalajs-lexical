@@ -1,7 +1,6 @@
 package lexical
 
 import scala.scalajs.js
-import org.scalajs.dom
 
 class LinkModule extends EditorModule:
   override def name: String = "Link"
@@ -16,26 +15,39 @@ class LinkModule extends EditorModule:
     editor.getSelectionWrapper().getNodes.exists(node => LexicalLink.$isLinkNode(node))
 
   override def execute(editor: LexicalEditor): Unit =
-    val selection = currentSelection(editor)
-    if (!editor.dispatchCommand(LinkCommands.OPEN_LINK_DIALOG_COMMAND, editor)) {
-      val currentUrl = currentLinkUrl(editor)
-      val url = dom.window.prompt("Enter URL:", currentUrl)
-      if (url != null) {
-        applyLink(editor, url, selection)
-      }
-    }
+    editor.dispatchCommand(
+      LinkCommands.OPEN_LINK_DIALOG_COMMAND,
+      new LinkCommands.LinkDialogPayload:
+        var currentUrl = currentLinkUrl(editor)
+        var selection = currentSelection(editor)
+    )
 
-  def applyLink(editor: LexicalEditor, url: String | Null, selection: BaseSelection | Null): Unit =
-    editor.update(() =>
-      if (selection != null) {
-        Lexical.$setSelection(selection.clone().asInstanceOf[BaseSelection])
-      }
-      val normalizedUrl = Option(url).map(_.trim).filter(_.nonEmpty).orNull
-      LexicalLink.$toggleLink(normalizedUrl)
-    , js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
+  override def register(editor: LexicalEditor): js.Function0[Unit] =
+    val removeInsertLink = editor.registerCommand(
+      LinkCommands.INSERT_LINK_COMMAND,
+      (payload: LinkCommands.LinkInsertPayload, lexicalEditor: LexicalEditor) => {
+        lexicalEditor.update(() => {
+          applyLinkInCurrentUpdate(payload.url, payload.selection)
+        }, js.Dynamic.literal().asInstanceOf[EditorUpdateOptions])
+        true
+      },
+      COMMAND_PRIORITY.EDITOR
+    )
+
+    () => removeInsertLink()
+
+  private def applyLinkInCurrentUpdate(url: String | Null, selection: BaseSelection | Null): Unit =
+    if (selection != null) {
+      Lexical.$setSelection(selection.clone())
+    }
+    val normalizedUrl = Option(url).map(_.trim).filter(_.nonEmpty).orNull
+    LexicalLink.$toggleLink(normalizedUrl)
 
   private def currentSelection(editor: LexicalEditor): BaseSelection | Null =
-    editor.read(() => Lexical.$getSelection())
+    editor.read(() => {
+      val selection = Lexical.$getSelection()
+      if (selection != null) selection.clone() else null
+    })
 
   private def currentLinkUrl(editor: LexicalEditor): String =
     editor.getEditorState().read(() => {

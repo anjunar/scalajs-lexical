@@ -113,6 +113,9 @@ class RibbonRenderer extends ToolbarRenderer:
     val btn = document.createElement("button").asInstanceOf[dom.HTMLButtonElement]
     btn.className = "lexical-ribbon-button"
     btn.asInstanceOf[js.Dynamic].updateDynamic("type")("button")
+    btn.onmousedown = (event: dom.MouseEvent) => {
+      event.preventDefault()
+    }
     module.iconName.foreach { icon =>
       val iconSpan = document.createElement("span").asInstanceOf[HTMLElement]
       iconSpan.className = "material-icons"
@@ -132,6 +135,9 @@ class RibbonRenderer extends ToolbarRenderer:
     val trigger = document.createElement("button").asInstanceOf[dom.HTMLButtonElement]
     trigger.className = "lexical-ribbon-button"
     trigger.asInstanceOf[js.Dynamic].updateDynamic("type")("button")
+    trigger.onmousedown = (event: dom.MouseEvent) => {
+      event.preventDefault()
+    }
     ToolbarRefresh.bindDropdownLabel(trigger, editor, dropdown)
 
     val menu = document.createElement("div").asInstanceOf[HTMLElement]

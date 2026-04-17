@@ -22,6 +22,9 @@ class FloatingToolbarRenderer extends ToolbarRenderer:
                 btn.appendChild(iconSpan)
               }
               btn.title = em.name
+              btn.onmousedown = (event: org.scalajs.dom.MouseEvent) => {
+                event.preventDefault()
+              }
               btn.onclick = (_: org.scalajs.dom.MouseEvent) => em.execute(editor)
 
               ToolbarRefresh.bindActiveState(btn, editor, em)
