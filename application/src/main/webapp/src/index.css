@@ -17,6 +17,21 @@
   --state-text: #a9b7c6;
 }
 
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-color: var(--aj-canvas);
+  --panel-bg: var(--aj-surface);
+  --border-color: var(--aj-line);
+  --text-primary: var(--aj-ink);
+  --text-secondary: var(--aj-ink-soft);
+  --accent-color: var(--aj-accent);
+  --accent-hover: var(--aj-accent-strong);
+  --sidebar-bg: var(--aj-surface-raised);
+  --layer-label: var(--aj-ink-muted);
+  --state-bg: var(--aj-surface-overlay);
+  --state-text: var(--aj-ink-soft);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -48,6 +63,13 @@ body {
   height: 100vh;
 }
 
+.sidebar-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
 .logo {
   font-weight: 900;
   font-size: 1.2rem;
@@ -56,10 +78,35 @@ body {
   color: var(--accent-color);
 }
 
+.theme-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.55);
+  color: var(--text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(255,255,255,0.9);
+  color: var(--text-primary);
+  border-color: var(--accent-color);
+}
+
+.theme-toggle .theme-toggle-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
 .sidebar-nav {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 36px 0 0;
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -93,6 +140,11 @@ body {
   margin-left: 72px;
   max-width: 1400px;
   padding: 64px 48px;
+}
+
+.lexical-ribbon-wrapper {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
 }
 
 .manifest-header {
