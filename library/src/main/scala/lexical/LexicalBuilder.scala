@@ -12,8 +12,8 @@ class LexicalBuilder:
   private var _floatingToolbarModules: Seq[EditorModule] = Seq.empty
   private var _toolbarElements: js.Array[ToolbarElement] = js.Array()
   private var _editable: Boolean = true
-  private var _initialState: Option[String] = None
-  private var _onStateChange: Option[String => Unit] = None
+  private var _initialState: js.Any = null
+  private var _onStateChange: Option[js.Any => Unit] = None
   private var _placeholder: String = ""
 
   def withNamespace(name: String): this.type =
@@ -67,11 +67,11 @@ class LexicalBuilder:
     _editable = editable
     this
 
-  def withInitialState(json: String): this.type =
-    _initialState = Some(json)
+  def withInitialState(state: js.Any): this.type =
+    _initialState = state
     this
 
-  def onStateChange(callback: String => Unit): this.type =
+  def onStateChange(callback: js.Any => Unit): this.type =
     _onStateChange = Some(callback)
     this
 
@@ -132,8 +132,8 @@ class LexicalBuilder:
       LexicalTable.registerTablePlugin(editor)
 
     // Initial State
-    _initialState.foreach { json =>
-      val state = editor.parseEditorState(json)
+    if (_initialState != null) {
+      val state = editor.parseEditorState(_initialState.asInstanceOf[js.Dynamic])
       editor.setEditorState(state, js.Dynamic.literal())
     }
 
@@ -141,8 +141,7 @@ class LexicalBuilder:
     _onStateChange.foreach { callback =>
       editor.registerUpdateListener((update: js.Dynamic) => {
         val editorState = editor.getEditorState()
-        val json = js.JSON.stringify(editorState.toJSON())
-        callback(json)
+        callback(editorState.toJSON())
       })
     }
 

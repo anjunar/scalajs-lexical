@@ -65,7 +65,7 @@ def main(): Unit =
     .onStateChange(json => {
       val stateDiv = dom.document.getElementById("state")
       if (stateDiv != null) {
-        stateDiv.textContent = json
+        stateDiv.textContent = js.JSON.stringify(json, null, 2)
         // Update the visual timestamp in the metadata section
         if (!js.isUndefined(js.Dynamic.global.updateStateTimestamp)) {
           js.Dynamic.global.updateStateTimestamp()
