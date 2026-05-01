@@ -2,11 +2,11 @@ import org.scalajs.linker.interface.{ESVersion, ModuleKind}
 import org.scalajs.sbtplugin.ScalaJSPlugin
 import xerial.sbt.Sonatype._
 
-ThisBuild / version := "1.0.7"
+ThisBuild / version := "1.1.0"
 ThisBuild / organization := "com.anjunar"
 ThisBuild / organizationName := "Anjunar"
 ThisBuild / organizationHomepage := Some(url("https://github.com/anjunar"))
-ThisBuild / scalaVersion := "3.8.3"
+ThisBuild / scalaVersion := "3.3.7"
 
 ThisBuild / homepage := Some(url("https://github.com/anjunar/scalajs-lexical"))
 ThisBuild / description := "Lexical editor wrapper for Scala.js."
