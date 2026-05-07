@@ -23,7 +23,7 @@ class HeadingDropdown extends ToolbarDropdown:
         val anchorNode = rangeSelection.anchor.getNode().asInstanceOf[js.Dynamic]
         val block = anchorNode.getTopLevelElement().asInstanceOf[js.Dynamic]
 
-        if (block == null || block.getType().asInstanceOf[String] != "heading") then
+        if (block == null || js.isUndefined(block) || block.getType().asInstanceOf[String] != "heading") then
           "paragraph"
         else
           block.getTag().asInstanceOf[String]
