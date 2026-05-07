@@ -23,10 +23,16 @@ class HeadingDropdown extends ToolbarDropdown:
         val anchorNode = rangeSelection.anchor.getNode().asInstanceOf[js.Dynamic]
         val block = anchorNode.getTopLevelElement().asInstanceOf[js.Dynamic]
 
-        if (block == null || js.isUndefined(block) || block.getType().asInstanceOf[String] != "heading") then
+        if (block == null || block.getType().asInstanceOf[String] != "heading") then
           "paragraph"
-        else
-          block.getTag().asInstanceOf[String]
+        else {
+          val tag = block.getTag()
+          if (js.isUndefined(tag)) {
+            "paragraph"
+          } else {
+            tag.asInstanceOf[String]
+          }
+        }
     )
 
   override def onSelect(editor: LexicalEditor, value: String): Unit =
