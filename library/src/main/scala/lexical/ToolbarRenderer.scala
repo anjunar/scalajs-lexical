@@ -253,8 +253,11 @@ class MenuRenderer extends ToolbarRenderer:
     menu.className = "lexical-menu-panel lexical-dropdown-menu"
     menu.style.display = "none"
 
+    val showSectionLabels =
+      !(tab.sections.length == 1 && tab.sections.headOption.exists(_.name == tab.name))
+
     tab.sections.foreach { section =>
-      menu.appendChild(createMenuSection(section, editor, closeMenus))
+      menu.appendChild(createMenuSection(section, editor, closeMenus, showSectionLabels))
     }
 
     wrapper.appendChild(trigger)
@@ -264,15 +267,18 @@ class MenuRenderer extends ToolbarRenderer:
   private def createMenuSection(
       section: ToolbarSection,
       editor: LexicalEditor,
-      closeMenus: () => Unit
+      closeMenus: () => Unit,
+      showLabel: Boolean
   ): HTMLElement =
     val sectionEl = document.createElement("div").asInstanceOf[HTMLElement]
     sectionEl.className = "lexical-menu-section"
 
-    val labelEl = document.createElement("div").asInstanceOf[HTMLElement]
-    labelEl.className = "lexical-menu-section-label"
-    labelEl.textContent = section.name
-    sectionEl.appendChild(labelEl)
+    if (showLabel) {
+      val labelEl = document.createElement("div").asInstanceOf[HTMLElement]
+      labelEl.className = "lexical-menu-section-label"
+      labelEl.textContent = section.name
+      sectionEl.appendChild(labelEl)
+    }
 
     val contentEl = document.createElement("div").asInstanceOf[HTMLElement]
     contentEl.className = "lexical-menu-section-content"

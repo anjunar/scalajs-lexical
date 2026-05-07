@@ -1,5 +1,7 @@
 package lexical
 
+import scala.collection.mutable
+
 enum ToolbarLayout:
   case Ribbon, Menu
 
@@ -27,25 +29,48 @@ class ToolbarRegistry(
       case ToolbarLayout.Menu => buildMenuModel()
 
   private def buildRibbonModel(): ToolbarModel =
-    val groupedByTab = elements.groupBy(tabNameForRibbon)
+    val tabs = mutable.LinkedHashMap.empty[String, mutable.LinkedHashMap[String, mutable.ListBuffer[ToolbarElement]]]
 
-    val toolbarTabs = groupedByTab.map { case (tabName, elementsInTab) =>
-      val sections = elementsInTab.groupBy(sectionNameForRibbon).map { case (sectionName, elementsInSection) =>
-        ToolbarSection(sectionName, elementsInSection)
-      }.toList.sortBy(_.name)
-      ToolbarTab(tabName, sections)
-    }.toList.sortBy(_.name)
+    elements.foreach { element =>
+      val tabName = tabNameForRibbon(element)
+      val sectionName = sectionNameForRibbon(element)
+      val sections = tabs.getOrElseUpdate(tabName, mutable.LinkedHashMap.empty)
+      val modules = sections.getOrElseUpdate(sectionName, mutable.ListBuffer.empty)
+      modules += element
+    }
 
-    ToolbarModel(toolbarTabs)
+    ToolbarModel(
+      tabs.iterator.map { case (tabName, sections) =>
+        ToolbarTab(
+          tabName,
+          sections.iterator.map { case (sectionName, modules) =>
+            ToolbarSection(sectionName, modules.toList)
+          }.toList
+        )
+      }.toList
+    )
 
   private def buildMenuModel(): ToolbarModel =
-    val groupedBySection = elements.groupBy(sectionNameForMenu)
+    val menus = mutable.LinkedHashMap.empty[String, mutable.LinkedHashMap[String, mutable.ListBuffer[ToolbarElement]]]
 
-    val menuTabs = groupedBySection.map { case (sectionName, elementsInSection) =>
-      ToolbarTab(sectionName, List(ToolbarSection(sectionName, elementsInSection)))
-    }.toList.sortBy(_.name)
+    elements.zipWithIndex.foreach { case (element, index) =>
+      val sectionName = sectionNameForMenu(index)
+      val menuName = normalizeMenuName(sectionName)
+      val sections = menus.getOrElseUpdate(menuName, mutable.LinkedHashMap.empty)
+      val modules = sections.getOrElseUpdate(sectionName, mutable.ListBuffer.empty)
+      modules += element
+    }
 
-    ToolbarModel(menuTabs)
+    ToolbarModel(
+      menus.iterator.map { case (menuName, sections) =>
+        ToolbarTab(
+          menuName,
+          sections.iterator.map { case (sectionName, modules) =>
+            ToolbarSection(sectionName, modules.toList)
+          }.toList
+        )
+      }.toList
+    )
 
   private def tabNameForRibbon(element: ToolbarElement): String = element match
     case m: EditorModule => m.metadata.tabName
@@ -55,6 +80,28 @@ class ToolbarRegistry(
     case m: EditorModule => m.metadata.sectionName
     case _: ToolbarDropdown => "Formatting"
 
-  private def sectionNameForMenu(element: ToolbarElement): String = element match
-    case m: EditorModule => m.metadata.sectionName
-    case d: ToolbarDropdown => d.name
+  private def sectionNameForMenu(index: Int): String =
+    val element = elements(index)
+    element match
+      case m: EditorModule => m.metadata.sectionName
+      case _: ToolbarDropdown =>
+        nearestSectionName(index).getOrElse("Formatting")
+
+  private def normalizeMenuName(sectionName: String): String =
+    sectionName match
+      case "Links" | "Media" | "Table" | "Code" => "Insert"
+      case other => other
+
+  private def nearestSectionName(index: Int): Option[String] =
+    nextSectionName(index).orElse(previousSectionName(index))
+
+  private def nextSectionName(index: Int): Option[String] =
+    elements.iterator
+      .drop(index + 1)
+      .collectFirst { case module: EditorModule => module.metadata.sectionName }
+
+  private def previousSectionName(index: Int): Option[String] =
+    elements
+      .take(index)
+      .reverseIterator
+      .collectFirst { case module: EditorModule => module.metadata.sectionName }
