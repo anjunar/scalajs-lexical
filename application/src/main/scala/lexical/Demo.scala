@@ -184,9 +184,9 @@ def main(): Unit =
   
   editor.setDialogService(new DemoDialogService())
   
-  val ribbonModules = builder.getRibbonModules.toList
-  val registry = new ToolbarRegistry(ribbonModules)
-  val renderer = new RibbonRenderer()
+  val menuModules = builder.getMenuModules.toList
+  val registry = new ToolbarRegistry(menuModules, ToolbarLayout.Menu)
+  val renderer = new MenuRenderer()
   
   val toolbarManager = new ToolbarManager(editor, registry, renderer)
   toolbarManager.createToolbar(toolbarContainer)

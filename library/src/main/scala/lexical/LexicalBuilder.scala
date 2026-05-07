@@ -193,4 +193,5 @@ class LexicalBuilder:
   def getModules: js.Array[EditorModule] = js.Array(_modules*)
 
   def getRibbonModules: Seq[ToolbarElement] = _ribbonElements
+  def getMenuModules: Seq[ToolbarElement] = _ribbonElements
   def getToolbarElements: js.Array[ToolbarElement] = _toolbarElements

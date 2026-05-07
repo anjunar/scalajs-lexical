@@ -147,6 +147,11 @@ body {
   border-bottom-right-radius: 0 !important;
 }
 
+.lexical-menu {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
 .manifest-header {
   margin-bottom: 64px;
 }
