@@ -21,6 +21,13 @@ def main(): Unit =
       .withTextUnderline("lexical-text-underline")
       .withTextStrikethrough("lexical-text-strikethrough")
       .withCode("lexical-text-code")
+      .withHeading(1, "lexical-heading-h1")
+      .withHeading(2, "lexical-heading-h2")
+      .withHeading(3, "lexical-heading-h3")
+      .withList("ul", "lexical-list-ul")
+
+      .withList("ol", "lexical-list-ol")
+      .withList("listitem", "lexical-listitem")
       .build()
     )
     .withNodes(js.Array(
@@ -75,9 +82,8 @@ def main(): Unit =
 
   val editor = builder.build(editorContainer)
   
-  LexicalList.registerList(editor)
-
   editor.registerCommand(LinkCommands.OPEN_LINK_DIALOG_COMMAND, (payload: LinkCommands.LinkDialogPayload, editor: LexicalEditor) => {
+
     val selectionSnapshot = payload.selection
     val currentUrl = payload.currentUrl
 

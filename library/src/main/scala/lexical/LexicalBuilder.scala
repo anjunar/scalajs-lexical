@@ -130,8 +130,11 @@ class LexicalBuilder:
       LexicalHistory.registerHistory(editor, LexicalHistory.createEmptyHistoryState(), 300)
     if hasTableSupportNodes then
       LexicalTable.registerTablePlugin(editor)
+    if hasListSupportNodes then
+      LexicalList.registerList(editor)
 
     // Initial State
+
     if (_initialState != null) {
       val state = editor.parseEditorState(_initialState.asInstanceOf[js.Dynamic])
       editor.setEditorState(state, js.Dynamic.literal())
@@ -181,6 +184,13 @@ class LexicalBuilder:
       LexicalTable.TableCellNode
     ).forall(node => _nodes.exists(_ == node))
 
+  private def hasListSupportNodes: Boolean =
+    Seq(
+      LexicalList.ListNode,
+      LexicalList.ListItemNode
+    ).forall(node => _nodes.exists(_ == node))
+
   def getModules: js.Array[EditorModule] = js.Array(_modules*)
+
   def getRibbonModules: Seq[ToolbarElement] = _ribbonElements
   def getToolbarElements: js.Array[ToolbarElement] = _toolbarElements
