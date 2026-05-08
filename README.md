@@ -438,10 +438,18 @@ The build is configured for Sonatype Central publishing with `sbt-pgp`.
 Typical release commands:
 
 ```bash
-sbtn-x86_64-pc-win32.exe "scalajs-lexical/publishSigned"
-sbtn-x86_64-pc-win32.exe sonaUpload
-sbtn-x86_64-pc-win32.exe sonaRelease
+./scripts/publish-central.sh
 ```
+
+On Windows:
+
+```powershell
+.\scripts\publish-central.ps1
+```
+
+The release flow creates a local staging bundle with `scalajs-lexical/publishSigned`,
+zips `target/sona-staging`, uploads it to the Sonatype Central Publisher API, and polls
+until the deployment is published.
 
 The demo project `scalajs-lexical-demo` is not published.
 
