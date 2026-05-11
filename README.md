@@ -30,7 +30,7 @@ The library is built around a few core ideas:
 Add the library to your Scala.js project:
 
 ```scala
-libraryDependencies += "com.anjunar" %%% "scalajs-lexical" % "1.1.0"
+libraryDependencies += "com.anjunar" %%% "scalajs-lexical" % "1.2.0"
 ```
 
 Install the NPM companion package next to it:
