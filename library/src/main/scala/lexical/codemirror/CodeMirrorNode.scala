@@ -13,6 +13,19 @@ class CodeMirrorComponent(
   var code: String,
   var language: String
 ):
+  private val appHighlightStyle = HighlightStyle.define(js.Array(
+    js.Dynamic.literal(tag = js.Array(HighlightTags.keyword, HighlightTags.operatorKeyword, HighlightTags.controlKeyword, HighlightTags.definitionKeyword, HighlightTags.moduleKeyword), color = "var(--aj-code-keyword)"),
+    js.Dynamic.literal(tag = js.Array(HighlightTags.atom, HighlightTags.bool, HighlightTags.constant(HighlightTags.variableName)), color = "var(--aj-code-constant)"),
+    js.Dynamic.literal(tag = HighlightTags.number, color = "var(--aj-code-number)"),
+    js.Dynamic.literal(tag = js.Array(HighlightTags.string, HighlightTags.regexp, HighlightTags.escape, HighlightTags.special(HighlightTags.string)), color = "var(--aj-code-string)"),
+    js.Dynamic.literal(tag = js.Array(HighlightTags.comment, HighlightTags.lineComment, HighlightTags.blockComment, HighlightTags.docComment), color = "var(--aj-code-comment)", fontStyle = "italic"),
+    js.Dynamic.literal(tag = js.Array(HighlightTags.typeName, HighlightTags.className, HighlightTags.namespace), color = "var(--aj-code-type)"),
+    js.Dynamic.literal(tag = js.Array(HighlightTags.functionTag(HighlightTags.variableName), HighlightTags.functionTag(HighlightTags.propertyName)), color = "var(--aj-code-function)"),
+    js.Dynamic.literal(tag = js.Array(HighlightTags.name, HighlightTags.variableName, HighlightTags.propertyName, HighlightTags.definition(HighlightTags.variableName), HighlightTags.definition(HighlightTags.propertyName), HighlightTags.special(HighlightTags.variableName)), color = "var(--aj-code-variable)"),
+    js.Dynamic.literal(tag = js.Array(HighlightTags.operator, HighlightTags.punctuation, HighlightTags.bracket, HighlightTags.angleBracket), color = "var(--aj-code-operator)"),
+    js.Dynamic.literal(tag = js.Array(HighlightTags.tagName, HighlightTags.attributeName, HighlightTags.meta, HighlightTags.annotation), color = "var(--aj-code-accent)")
+  ))
+
   val container: dom.HTMLElement = dom.document.createElement("div").asInstanceOf[dom.HTMLElement]
   container.className = "codemirror-wrapper"
   
@@ -21,7 +34,7 @@ class CodeMirrorComponent(
   def initView(): Unit =
     val extensions = js.Array[js.Object](
       CodeMirrorKeymap.of(js.Array(indentWithTab) ++ defaultKeymap),
-      syntaxHighlighting(defaultHighlightStyle),
+      syntaxHighlighting(appHighlightStyle),
       EditorView.lineWrapping,
       getLanguageExtension(language),
       EditorView.updateListener.of((update: EditorViewUpdate) => {

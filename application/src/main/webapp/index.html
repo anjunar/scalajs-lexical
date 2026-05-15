@@ -45,6 +45,11 @@
       <div class="workspace-grid">
         <section class="editor-section">
           <div class="layer-label">Live Editor Wrapper Showcase</div>
+          <div class="showcase-actions" aria-label="Showcase persistence actions">
+            <button id="save-state" class="showcase-action-button" type="button">Save to localStorage</button>
+            <button id="load-state" class="showcase-action-button" type="button">Load saved state</button>
+            <button id="reset-state" class="showcase-action-button showcase-action-button-secondary" type="button">Reset showcase</button>
+          </div>
           <div class="editor-shell">
             <div id="toolbar" class="toolbar"></div>
             <div class="editor-container">
@@ -53,7 +58,7 @@
           </div>
           <div class="editor-footer">
             <span class="status-indicator">Resonance: Active</span>
-            <span class="version-tag">Draft v1.4.2</span>
+            <span class="version-tag" id="storage-status">localStorage: Ready</span>
           </div>
         </section>
 

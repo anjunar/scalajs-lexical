@@ -64,10 +64,53 @@ def syntaxHighlighting(style: js.Object): js.Object = js.native
 @js.native
 val defaultHighlightStyle: js.Object = js.native
 
+@JSImport("@codemirror/language", "HighlightStyle")
+@js.native
+object HighlightStyle extends js.Object:
+  def define(specs: js.Array[js.Object]): js.Object = js.native
+
 @JSImport("@codemirror/language", "StreamLanguage")
 @js.native
 object StreamLanguage extends js.Object:
   def define(mode: js.Object): js.Object = js.native
+
+@JSImport("@lezer/highlight", "tags")
+@js.native
+object HighlightTags extends js.Object:
+  val keyword: js.Object = js.native
+  val atom: js.Object = js.native
+  val bool: js.Object = js.native
+  val number: js.Object = js.native
+  val string: js.Object = js.native
+  val regexp: js.Object = js.native
+  val escape: js.Object = js.native
+  val comment: js.Object = js.native
+  val lineComment: js.Object = js.native
+  val blockComment: js.Object = js.native
+  val docComment: js.Object = js.native
+  val name: js.Object = js.native
+  val variableName: js.Object = js.native
+  val propertyName: js.Object = js.native
+  val typeName: js.Object = js.native
+  val className: js.Object = js.native
+  val namespace: js.Object = js.native
+  val operator: js.Object = js.native
+  val operatorKeyword: js.Object = js.native
+  val controlKeyword: js.Object = js.native
+  val definitionKeyword: js.Object = js.native
+  val moduleKeyword: js.Object = js.native
+  val punctuation: js.Object = js.native
+  val bracket: js.Object = js.native
+  val angleBracket: js.Object = js.native
+  val tagName: js.Object = js.native
+  val attributeName: js.Object = js.native
+  val meta: js.Object = js.native
+  val annotation: js.Object = js.native
+  val definition: js.Function1[js.Object, js.Object] = js.native
+  val constant: js.Function1[js.Object, js.Object] = js.native
+  @JSName("function")
+  val functionTag: js.Function1[js.Object, js.Object] = js.native
+  val special: js.Function1[js.Object, js.Object] = js.native
 
 // Languages
 @JSImport("@codemirror/lang-javascript", "javascript")

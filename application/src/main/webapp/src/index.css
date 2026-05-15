@@ -239,6 +239,35 @@ body {
   flex-direction: column;
 }
 
+.showcase-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.showcase-action-button {
+  border: 1px solid var(--border-color);
+  background: var(--panel-bg);
+  color: var(--text-primary);
+  padding: 10px 14px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.showcase-action-button:hover {
+  border-color: var(--accent-color);
+  background: var(--sidebar-bg);
+}
+
+.showcase-action-button-secondary {
+  color: var(--text-secondary);
+}
+
 .editor-container {
   flex: 1;
   position: relative;
@@ -572,4 +601,84 @@ body {
 .sidebar-nav li[data-mode]:hover::after {
   opacity: 1;
   transform: translateX(0);
+}
+
+@media (max-width: 1100px) {
+  .workspace-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .meta-section {
+    order: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .manifest-main {
+    padding: 40px 24px;
+  }
+
+  .editor-input {
+    padding: 40px 28px;
+    font-size: 1.15rem;
+  }
+
+  .editor-placeholder {
+    top: 40px;
+    left: 28px;
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 720px) {
+  .manifest-sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 16px 20px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .sidebar-header {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .logo {
+    margin-bottom: 0;
+  }
+
+  .sidebar-nav {
+    flex-direction: row;
+    gap: 12px;
+    margin: 0;
+  }
+
+  .sidebar-nav li[data-mode]::after {
+    display: none;
+  }
+
+  .manifest-main {
+    margin-left: 0;
+  }
+
+  .manifest-header {
+    margin-bottom: 40px;
+  }
+
+  .manifest-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .manifest-intro {
+    font-size: 1.15rem;
+  }
+
+  .editor-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
 }
