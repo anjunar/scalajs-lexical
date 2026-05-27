@@ -13,6 +13,7 @@ trait EditorTheme extends js.Object:
   var text: js.UndefOr[EditorTextTheme] = js.undefined
   var code: js.UndefOr[String] = js.undefined
   var codeHighlight: js.UndefOr[js.Dictionary[String]] = js.undefined
+  var hr: js.UndefOr[String] = js.undefined
   var link: js.UndefOr[String] = js.undefined
   var image: js.UndefOr[String] = js.undefined
 
@@ -76,6 +77,10 @@ class EditorThemeBuilder:
 
   def withCode(className: String): this.type =
     _theme.code = className
+    this
+
+  def withHorizontalRule(className: String): this.type =
+    _theme.hr = className
     this
 
   def build(): EditorTheme = _theme

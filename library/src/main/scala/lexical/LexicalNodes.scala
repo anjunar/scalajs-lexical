@@ -188,6 +188,20 @@ trait DecoratorNodeStatic extends js.Object:
   def importJSON(serialized: js.Dynamic): DecoratorNode[Any] = js.native
 
 @js.native
+@JSImport("@lexical/extension", "HorizontalRuleNode")
+class HorizontalRuleNode(key: NodeKey = "") extends DecoratorNode[Any](key)
+
+@js.native
+@JSImport("@lexical/extension", "HorizontalRuleNode")
+object HorizontalRuleNode extends HorizontalRuleNodeStatic
+
+@js.native
+trait HorizontalRuleNodeStatic extends js.Object:
+  def getType(): String = js.native
+  def clone(node: HorizontalRuleNode): HorizontalRuleNode = js.native
+  def importJSON(serialized: js.Dynamic): HorizontalRuleNode = js.native
+
+@js.native
 @JSImport("lexical", "TabNode")
 class TabNode(key: NodeKey = "") extends LexicalNode
 
