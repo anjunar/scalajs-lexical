@@ -59,17 +59,17 @@
     "@codemirror/legacy-modes": "^6.5.2",
     "@codemirror/state": "^6.5.0",
     "@codemirror/view": "^6.35.0",
-    "@lexical/code": "^0.43.0",
-    "@lexical/dragon": "^0.43.0",
-    "@lexical/history": "^0.43.0",
-    "@lexical/link": "^0.43.0",
-    "@lexical/list": "^0.43.0",
-    "@lexical/markdown": "^0.43.0",
-    "@lexical/rich-text": "^0.43.0",
-    "@lexical/selection": "^0.43.0",
-    "@lexical/table": "^0.43.0",
-    "@lexical/utils": "^0.43.0",
+    "@lexical/code": "^0.45.0",
+    "@lexical/dragon": "^0.45.0",
+    "@lexical/history": "^0.45.0",
+    "@lexical/link": "^0.45.0",
+    "@lexical/list": "^0.45.0",
+    "@lexical/markdown": "^0.45.0",
+    "@lexical/rich-text": "^0.45.0",
+    "@lexical/selection": "^0.45.0",
+    "@lexical/table": "^0.45.0",
+    "@lexical/utils": "^0.45.0",
     "codemirror": "^6.0.1",
-    "lexical": "^0.43.0"
+    "lexical": "^0.45.0"
   }
 }

@@ -17,6 +17,6 @@
     "@scala-js/vite-plugin-scalajs": "^1.1.0",
     "happy-dom": "^20.9.0",
     "tailwindcss": "^4.1.0",
-    "vite": "8.0.8"
+    "vite": "8.0.16"
   }
 }

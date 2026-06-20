@@ -30,7 +30,7 @@ The library is built around a few core ideas:
 Add the library to your Scala.js project:
 
 ```scala
-libraryDependencies += "com.anjunar" %%% "scalajs-lexical" % "1.2.3"
+libraryDependencies += "com.anjunar" %%% "scalajs-lexical" % "1.3.0"
 ```
 
 Install the NPM companion package next to it:
@@ -41,7 +41,7 @@ npm install @anjunar/scalajs-lexical
 
 The current build uses:
 
-- Scala `3.3.7`
+- Scala `3.3.8`
 - Scala.js DOM `2.8.1`
 - Lexical `0.43.x`
 - ES module output targeting `ES2021`
